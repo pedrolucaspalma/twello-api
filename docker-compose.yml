@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+    app:
+        image: dsw-trello/backend
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        env_file: .env
+        container_name: dsw-trello-back
+        depends_on:
+            - dsw-trello-db
+        links:
+            - dsw-trello-db
+        volumes:
+            - .:/home/node/dsw-trello-back
+            - /home/node/dsw-trello-back/node_modules
+            - ./files:/home/node/dsw-trello-back/files
+        ports:
+            - "4005:4005"
+
+    dsw-trello-db:
+        image: postgres:11.12
+        container_name: dsw-trello-db
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: twdo-db
+        volumes:
+            - dswdata:/var/lib/postgresql/data
+        ports:
+            - "5430:5432"
+volumes:
+    dswdata:
+        driver: local
