@@ -1,6 +1,4 @@
 import express from "express";
-import { readdirSync } from "fs";
-import { UserController } from "./controllers/UserController";
 
 const router = express.Router();
 
