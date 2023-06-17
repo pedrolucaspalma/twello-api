@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:18
 
 USER node
 
@@ -8,10 +8,10 @@ WORKDIR /home/node/twello-api
 
 COPY --chown=node:node  package*.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY --chown=node:node . /home/node/twello-api 
 
 EXPOSE 4005
 
-CMD ["yarn", "dev"]
+CMD ["npm", "run", "dev"]

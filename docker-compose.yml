@@ -24,9 +24,9 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: twdo-db
+      POSTGRES_DB: twello-db
     volumes:
-      - dswdata:/var/lib/twdo-db/data
+      - twdodbdata:/var/lib/twello-db/data
     ports:
       - "5430:5432"
 volumes:
