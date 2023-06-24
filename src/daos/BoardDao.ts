@@ -4,6 +4,7 @@ import { IBoardDao } from "../interfaces/IBoardDao";
 import {
 	Board,
 	BoardCreationPayload,
+	BoardUpdatePayload,
 	UsersSharedBoardAssociation,
 } from "../types/BoardTypes";
 
@@ -31,6 +32,7 @@ export class BoardDao implements IBoardDao {
 		}
 		return boardsOwned;
 	}
+
 	async createBoard(data: BoardCreationPayload): Promise<void> {
 		// These defaults are here because they will be handled by the defaultValues set in database columns
 		let defaultTitle = "New Board";
@@ -46,5 +48,16 @@ export class BoardDao implements IBoardDao {
 		};
 
 		boardsTable.push(formattedData);
+	}
+
+	async updateBoard(
+		boardUuid: string,
+		data: BoardUpdatePayload
+	): Promise<void> {
+		const board = boardsTable.find((board) => board.uuid === boardUuid);
+		if (!board) return;
+		if (data.title) board.title = data.title;
+		if (data.backgroundColor) board.backgroundColor = data.backgroundColor;
+		if (data.textColor) board.textColor = data.textColor;
 	}
 }
