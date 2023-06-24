@@ -14,6 +14,12 @@ export type BoardCreationPayload = {
 	textColor?: string; // Defaults #000000
 };
 
+export type BoardUpdatePayload = {
+	title?: string;
+	backgroundColor?: string;
+	textColor?: string;
+};
+
 export type UsersSharedBoardAssociation = {
 	userUuid: string;
 	boardUuid: string;
