@@ -1,5 +1,5 @@
-import { User } from "../../types/UserTypes";
-import { CreateUserPayload } from "../../types/UserTypes";
+import { User } from "../types/UserTypes";
+import { CreateUserPayload } from "../types/UserTypes";
 
 export interface IUserDao {
 	findByUuid(uuid: string): Promise<User | null>;

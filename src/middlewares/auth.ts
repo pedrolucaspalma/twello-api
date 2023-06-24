@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
-import { DecodedTokenUserPayload } from "../../types/UserTypes";
+import { DecodedTokenUserPayload } from "../types/UserTypes";
 
 const { SECRET } = process.env;
 
