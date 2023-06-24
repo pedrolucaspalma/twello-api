@@ -3,7 +3,7 @@ import jsonwebtoken from "jsonwebtoken";
 
 import { IUserDao } from "../interfaces/IUserDao";
 import { IUserService } from "../interfaces/IUserService";
-import { CreateUserPayload, SignInPayload } from "../types/UserTypes";
+import { CreateUserPayload, SignInPayload } from "../../types/UserTypes";
 
 const { SECRET } = process.env;
 

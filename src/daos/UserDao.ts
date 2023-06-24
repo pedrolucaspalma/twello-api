@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 
 import { IUserDao } from "../interfaces/IUserDao";
-import { CreateUserPayload, User } from "../types/UserTypes";
+import { CreateUserPayload, User } from "../../types/UserTypes";
 
 export class UserDao implements IUserDao {
 	async isEmailAvailable(email: string): Promise<boolean> {
