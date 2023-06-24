@@ -31,7 +31,20 @@ export class BoardDao implements IBoardDao {
 		}
 		return boardsOwned;
 	}
-	async createBoard(data: Board): Promise<void> {
-		boardsTable.push(data);
+	async createBoard(data: BoardCreationPayload): Promise<void> {
+		// These defaults are here because they will be handled by the defaultValues set in database columns
+		let defaultTitle = "New Board";
+		let defaultBackgroundColor = "#FFFFFF";
+		let defaultTextColor = "#000000";
+		const formattedData: Board = {
+			title: defaultTitle,
+			backgroundColor: defaultBackgroundColor,
+			textColor: defaultTextColor,
+			...data,
+			uuid: v4(),
+			createdAt: new Date().getTime(),
+		};
+
+		boardsTable.push(formattedData);
 	}
 }
