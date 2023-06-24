@@ -24,7 +24,20 @@ export class UserController {
 			const data = req.body;
 			return this.userService
 				.createUser(data)
-				.then(() => res.status(200).send())
+				.then(() => res.status(201).send())
+				.catch((e) => {
+					res.status(400).send({ Error: "Bad Request" });
+					console.log(e);
+				});
+		};
+	}
+
+	signIn() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const data = req.body;
+			return this.userService
+				.signIn(data)
+				.then((token) => res.status(200).send({ token }))
 				.catch((e) => {
 					res.status(400).send({ Error: "Bad Request" });
 					console.log(e);

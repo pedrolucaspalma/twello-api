@@ -4,7 +4,8 @@ const userController = ControllersFactory.makeUserController();
 
 const router = express.Router();
 
-router.post("/", userController.createUser());
+router.post("/sign-in", userController.signIn());
 router.get("/list", userController.listUsers());
+router.post("/", userController.createUser());
 
 export default router;
