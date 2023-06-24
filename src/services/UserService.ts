@@ -1,11 +1,19 @@
+import { IBoardDao } from "../interfaces/IBoardDao";
 import { IUserDao } from "../interfaces/IUserDao";
 import { IUserService } from "../interfaces/IUserService";
-import { CreateUserPayload, SignInPayload } from "../types/UserTypes";
+import {
+	CreateUserPayload,
+	SignInPayload,
+	UserBoardsList,
+} from "../types/UserTypes";
 import { CryptUtil } from "../utils/CryptUtil";
 import { StatusError } from "../utils/StatusErrors";
 
 export class UserService implements IUserService {
-	constructor(private readonly userDao: IUserDao) {}
+	constructor(
+		private readonly userDao: IUserDao,
+		private readonly boardDao: IBoardDao
+	) {}
 	async createUser(userData: CreateUserPayload): Promise<void> {
 		const emailIsAvailable = await this.userDao.isEmailAvailable(
 			userData.email
@@ -34,5 +42,17 @@ export class UserService implements IUserService {
 		});
 
 		return token;
+	}
+
+	async listBoards(userUuid: string): Promise<UserBoardsList> {
+		const [owned, shared] = await Promise.all([
+			this.boardDao.getBoardsOwnedByUser(userUuid),
+			this.boardDao.getBoardsSharedWithUser(userUuid),
+		]);
+		const response: UserBoardsList = {
+			owned,
+			shared,
+		};
+		return response;
 	}
 }
