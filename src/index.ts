@@ -36,7 +36,10 @@ AppDataSource.initialize()
 				next: NextFunction
 			) => {
 				console.log(`[error]: ${err.message}`);
-				return res.status(err.status).send({ message: err.message });
+				if (err.message && err.status)
+					return res.status(err.status).send({ message: err.message });
+
+				return res.status(500).send({ message: "Internal server Error" });
 			}
 		);
 
