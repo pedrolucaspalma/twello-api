@@ -29,6 +29,10 @@ export class UserDao implements IUserDao {
 		if (!user) return null;
 		return user;
 	}
+
+	async listUsers(): Promise<User[]> {
+		return usersTable;
+	}
 }
 
 const usersTable: User[] = [

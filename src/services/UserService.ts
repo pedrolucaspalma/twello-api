@@ -2,12 +2,12 @@ import bcrypt from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 
 import { IUserDao } from "../interfaces/IUserDao";
-import { IUserInterface } from "../interfaces/IUserService";
+import { IUserService } from "../interfaces/IUserService";
 import { CreateUserPayload, SignInPayload } from "../types/UserTypes";
 
 const { SECRET } = process.env;
 
-export class UserService implements IUserInterface {
+export class UserService implements IUserService {
 	constructor(private readonly userDao: IUserDao) {}
 	async createUser(userData: CreateUserPayload): Promise<void> {
 		const isEmailAvailable = await this.userDao.checkEmailAvailability(
