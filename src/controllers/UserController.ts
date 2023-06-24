@@ -8,7 +8,7 @@ export class UserController {
 	) {}
 
 	listUsers() {
-		return async (req: Request, res: Response, next: NextFunction) => {
+		return (req: Request, res: Response, next: NextFunction) => {
 			return this.userDao
 				.listUsers()
 				.then((users) => res.status(200).send(users))
@@ -20,7 +20,7 @@ export class UserController {
 	}
 
 	createUser() {
-		return async (req: Request, res: Response, next: NextFunction) => {
+		return (req: Request, res: Response, next: NextFunction) => {
 			const data = req.body;
 			return this.userService
 				.createUser(data)

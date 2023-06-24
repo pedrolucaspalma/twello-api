@@ -10,10 +10,10 @@ const { SECRET } = process.env;
 export class UserService implements IUserService {
 	constructor(private readonly userDao: IUserDao) {}
 	async createUser(userData: CreateUserPayload): Promise<void> {
-		const isEmailAvailable = await this.userDao.checkEmailAvailability(
+		const emailIsAvailable = await this.userDao.isEmailAvailable(
 			userData.email
 		);
-		if (!isEmailAvailable) throw new Error("email already in use");
+		if (!emailIsAvailable) throw new Error("email already in use");
 
 		const encryptedPassword = await this.hashPassword(userData.password);
 		const formattedData = { ...userData, password: encryptedPassword };

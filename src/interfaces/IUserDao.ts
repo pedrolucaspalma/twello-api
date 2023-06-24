@@ -7,5 +7,5 @@ export interface IUserDao {
 	create(userCreationPayload: CreateUserPayload): Promise<void>;
 	listUsers(): Promise<User[]>;
 
-	checkEmailAvailability(email: string): Promise<boolean>;
+	isEmailAvailable(email: string): Promise<boolean>;
 }

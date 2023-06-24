@@ -4,10 +4,10 @@ import { IUserDao } from "../interfaces/IUserDao";
 import { CreateUserPayload, User } from "../types/UserTypes";
 
 export class UserDao implements IUserDao {
-	async checkEmailAvailability(email: string): Promise<boolean> {
+	async isEmailAvailable(email: string): Promise<boolean> {
 		const user = usersTable.find((u) => u.email === email);
-		if (user) return true;
-		return false;
+		if (user) return false;
+		return true;
 	}
 
 	async create(userCreationPayload: CreateUserPayload): Promise<void> {
