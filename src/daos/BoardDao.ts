@@ -59,7 +59,7 @@ export class BoardDao implements IBoardDao {
 	async getUserAssociationWithBoard(
 		boardUuid: string,
 		userUuid: string
-	): Promise<UsersSharedBoardAssociation> {
+	): Promise<UsersSharedBoardAssociation | null> {
 		const association = usersSharedBoardsTable.find(
 			(association) =>
 				association.boardUuid === boardUuid && association.userUuid === userUuid
