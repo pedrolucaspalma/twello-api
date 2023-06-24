@@ -19,13 +19,13 @@ export class UserService implements IUserService {
 
 	async signIn(signInData: SignInPayload): Promise<string> {
 		const user = await this.userDao.findByEmail(signInData.email);
-		if (!user) throw new Error("Invalid credentials");
+		if (!user) throw new StatusError(401, "Invalid credentials");
 
 		const passwordMatches = await CryptUtil.comparePasswords(
 			signInData.password,
 			user.password
 		);
-		if (!passwordMatches) throw new StatusError(400, "Invalid credentials");
+		if (!passwordMatches) throw new StatusError(401, "Invalid credentials");
 
 		const token = CryptUtil.generateJWT({
 			uuid: user.uuid,
