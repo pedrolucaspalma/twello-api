@@ -9,8 +9,26 @@ export class UserController {
 
 	listUsers() {
 		return async (req: Request, res: Response, next: NextFunction) => {
-			const users = await this.userDao.listUsers();
-			res.status(200).send(users);
+			return this.userDao
+				.listUsers()
+				.then((users) => res.status(200).send(users))
+				.catch((e) => {
+					res.status(400).send({ Error: "Bad Request" });
+					console.log(e);
+				});
+		};
+	}
+
+	createUser() {
+		return async (req: Request, res: Response, next: NextFunction) => {
+			const data = req.body;
+			return this.userService
+				.createUser(data)
+				.then(() => res.status(200).send())
+				.catch((e) => {
+					res.status(400).send({ Error: "Bad Request" });
+					console.log(e);
+				});
 		};
 	}
 }
