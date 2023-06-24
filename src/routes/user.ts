@@ -5,8 +5,16 @@ const userController = ControllersFactory.makeUserController();
 
 const router = express.Router();
 
+router.post("/sign-up", userController.createUser());
 router.post("/sign-in", userController.signIn());
+
+router.get(
+	"/list-boards",
+	authenticationMiddleware(),
+	userController.listBoards()
+);
+
+// This lists Users. It is mainly a testing endpoint
 router.get("/list", authenticationMiddleware(), userController.listUsers());
-router.post("/", userController.createUser());
 
 export default router;

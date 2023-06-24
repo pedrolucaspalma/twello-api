@@ -10,6 +10,6 @@ router.get("/api", async (req, res, next) => {
 	});
 });
 
-router.use("/users", userRoutes);
+router.use("/user", userRoutes);
 
 export default router;
