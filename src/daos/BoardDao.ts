@@ -56,6 +56,19 @@ export class BoardDao implements IBoardDao {
 		return board;
 	}
 
+	async getUserAssociationWithBoard(
+		boardUuid: string,
+		userUuid: string
+	): Promise<UsersSharedBoardAssociation> {
+		const association = usersSharedBoardsTable.find(
+			(association) =>
+				association.boardUuid === boardUuid && association.userUuid === userUuid
+		);
+
+		if (!association) return null;
+		return association;
+	}
+
 	async updateBoard(
 		boardUuid: string,
 		data: BoardUpdatePayload
