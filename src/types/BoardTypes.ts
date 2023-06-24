@@ -1,14 +1,14 @@
 export type Board = {
 	uuid: string;
 	title: string;
-	creatorUserUuid: string;
+	ownerUserUuid: string;
 	backgroundColor: string;
 	textColor: string;
 	createdAt: number;
 };
 
 export type BoardCreationPayload = {
-	creatorUserUuid: string;
+	ownerUserUuid: string;
 	title?: string; // Defaults "New board"
 	backgroundColor?: string; // Defaults #FFFFFF
 	textColor?: string; // Defaults #000000

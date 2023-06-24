@@ -4,7 +4,7 @@ import { User } from "./types/UserTypes";
 export const boardsTable: Board[] = [
 	{
 		uuid: "2713c147-85ee-46a0-b23b-b9cce1a8b8e8",
-		creatorUserUuid: "74aa8bd0-ff7c-449b-8c94-a0513178ab94",
+		ownerUserUuid: "74aa8bd0-ff7c-449b-8c94-a0513178ab94",
 		title: "Trabalho",
 		backgroundColor: "#FF5733",
 		textColor: "#000000",
@@ -12,7 +12,7 @@ export const boardsTable: Board[] = [
 	},
 	{
 		uuid: "2713c147-85ee-46a0-b23b-b9cce1a8b8e8",
-		creatorUserUuid: "69cf3341-b40d-45d2-b602-313d83b5df5e",
+		ownerUserUuid: "69cf3341-b40d-45d2-b602-313d83b5df5e",
 		title: "Faculdade",
 		backgroundColor: "#2C8BCD",
 		textColor: "#000000",
