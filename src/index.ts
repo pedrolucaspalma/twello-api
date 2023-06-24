@@ -2,6 +2,7 @@ import "reflect-metadata";
 
 import dotenv from "dotenv";
 import express from "express";
+import bodyParser from "body-parser";
 
 import router from "./routes";
 
@@ -12,6 +13,9 @@ AppDataSource.initialize()
 		dotenv.config();
 		const app = express();
 		const port = process.env.PORT;
+
+		app.use(bodyParser.urlencoded({ extended: false }));
+		app.use(bodyParser.json());
 
 		app.use(router);
 
