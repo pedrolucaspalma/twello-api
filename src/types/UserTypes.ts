@@ -1,3 +1,5 @@
+import { Board } from "./BoardTypes";
+
 export type CreateUserPayload = {
 	name: string;
 	email: string;
@@ -21,4 +23,9 @@ export type User = {
 	password: string;
 	email: string;
 	createdAt: number;
+};
+
+export type UserBoardsList = {
+	owned: Board[];
+	shared: Board[];
 };
