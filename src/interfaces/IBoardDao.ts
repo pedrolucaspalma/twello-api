@@ -9,4 +9,5 @@ export interface IBoardDao {
 	getBoardsOwnedByUser(userUuid: string): Promise<Board[]>;
 	createBoard(data: BoardCreationPayload): Promise<void>;
 	updateBoard(boardUuid: string, data: BoardUpdatePayload): Promise<void>;
+	getBoard(boardUuid: string): Promise<Board | null>;
 }

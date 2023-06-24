@@ -50,6 +50,12 @@ export class BoardDao implements IBoardDao {
 		boardsTable.push(formattedData);
 	}
 
+	async getBoard(boardUuid: string): Promise<Board | null> {
+		const board = boardsTable.find((board) => board.uuid === boardUuid);
+		if (!board) return null;
+		return board;
+	}
+
 	async updateBoard(
 		boardUuid: string,
 		data: BoardUpdatePayload
