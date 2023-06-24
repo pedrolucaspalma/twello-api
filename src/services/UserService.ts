@@ -1,6 +1,11 @@
+import bcrypt from "bcryptjs";
+import jsonwebtoken from "jsonwebtoken";
+
 import { IUserDao } from "../interfaces/IUserDao";
 import { IUserInterface } from "../interfaces/IUserService";
-import { CreateUserPayload } from "../types/UserTypes";
+import { CreateUserPayload, SignInPayload } from "../types/UserTypes";
+
+const { SECRET } = process.env;
 
 export class UserService implements IUserInterface {
 	constructor(private readonly userDao: IUserDao) {}
@@ -8,15 +13,51 @@ export class UserService implements IUserInterface {
 		const isEmailAvailable = await this.userDao.checkEmailAvailability(
 			userData.email
 		);
-		if (!isEmailAvailable) throw new Error("e-mail already in use");
+		if (!isEmailAvailable) throw new Error("email already in use");
 
-		const encryptedPassword = this.hashPassword(userData.password);
+		const encryptedPassword = await this.hashPassword(userData.password);
 		const formattedData = { ...userData, password: encryptedPassword };
 		await this.userDao.create(formattedData);
 	}
 
-	private hashPassword(password: string): string {
-		throw new Error("não implementado");
-		return password;
+	async signIn(signInData: SignInPayload): Promise<string> {
+		const user = await this.userDao.findByEmail(signInData.email);
+		if (!user) throw new Error("Invalid credentials");
+
+		const passwordMatches = await this.comparePasswords(
+			signInData.password,
+			user.password
+		);
+		if (!passwordMatches) throw new Error("Invalid credentials");
+
+		const token = this.generateJWT({
+			uuid: user.uuid,
+			email: user.email,
+			name: user.name,
+		});
+
+		return token;
+	}
+
+	private async hashPassword(password: string): Promise<string> {
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
+		return hashedPassword;
+	}
+
+	private async comparePasswords(
+		payloadPassword: string,
+		userPassword: string
+	): Promise<boolean> {
+		return bcrypt.compare(payloadPassword, userPassword);
+	}
+
+	private generateJWT(userData: {
+		uuid: string;
+		name: string;
+		email: string;
+	}): string {
+		const token = jsonwebtoken.sign(userData, SECRET as string);
+		return token;
 	}
 }
