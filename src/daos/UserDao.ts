@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 import { IUserDao } from "../interfaces/IUserDao";
 import { CreateUserPayload, User } from "../types/UserTypes";
 import { usersTable } from "../database";
+import { Board } from "../types/BoardTypes";
 
 export class UserDao implements IUserDao {
 	async isEmailAvailable(email: string): Promise<boolean> {
@@ -25,7 +26,7 @@ export class UserDao implements IUserDao {
 		return user;
 	}
 
-	async findByEmail(email: String): Promise<User | null> {
+	async findByEmail(email: string): Promise<User | null> {
 		const user = usersTable.find((u) => u.email === email);
 		if (!user) return null;
 		return user;
