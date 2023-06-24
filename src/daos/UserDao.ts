@@ -2,6 +2,7 @@ import { v4 } from "uuid";
 
 import { IUserDao } from "../interfaces/IUserDao";
 import { CreateUserPayload, User } from "../types/UserTypes";
+import { usersTable } from "../database";
 
 export class UserDao implements IUserDao {
 	async isEmailAvailable(email: string): Promise<boolean> {
@@ -34,27 +35,3 @@ export class UserDao implements IUserDao {
 		return usersTable;
 	}
 }
-
-const usersTable: User[] = [
-	{
-		uuid: "74aa8bd0-ff7c-449b-8c94-a0513178ab94",
-		name: "Pedro Palma",
-		email: "pedro@email.com",
-		password: "hfdsoiughfdiugnfdi-uhfdg9undf",
-		createdAt: 1687573903886,
-	},
-	{
-		uuid: "69cf3341-b40d-45d2-b602-313d83b5df5e",
-		name: "Vitor Barroso",
-		email: "vitor@email.com",
-		password: "dsfhsdufsd-uhfdg9undf",
-		createdAt: 1687573923324,
-	},
-	{
-		uuid: "69cf3341-b40d-45d2-b602-313d83b5df5e",
-		name: "Usuario Exemplo",
-		email: "usuario@email.com",
-		password: "4358433443uhfdg9undf",
-		createdAt: 1287853423324,
-	},
-];
