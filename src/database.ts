@@ -25,6 +25,7 @@ export const usersSharedBoardsTable: UsersSharedBoardAssociation[] = [
 		boardUuid: "2713c147-85ee-46a0-b23b-b9cce1a8b8e8",
 		userUuid: "69cf3341-b40d-45d2-b602-313d83b5df5e",
 		canEdit: true,
+		isFavorite: false,
 	},
 ];
 

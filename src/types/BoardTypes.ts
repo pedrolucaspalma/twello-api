@@ -4,6 +4,7 @@ export type Board = {
 	ownerUserUuid: string;
 	backgroundColor: string;
 	textColor: string;
+	// content?: [];
 	createdAt: number;
 };
 
@@ -24,6 +25,7 @@ export type UsersSharedBoardAssociation = {
 	userUuid: string;
 	boardUuid: string;
 	canEdit: boolean; // Defaults false
+	isFavorite: boolean; // Defaults false
 };
 
 export type BoardUserAssociationCreationPayload = {
