@@ -1,6 +1,11 @@
+import { v4 } from "uuid";
 import { boardsTable, usersSharedBoardsTable } from "../database";
 import { IBoardDao } from "../interfaces/IBoardDao";
-import { Board, UsersSharedBoardAssociation } from "../types/BoardTypes";
+import {
+	Board,
+	BoardCreationPayload,
+	UsersSharedBoardAssociation,
+} from "../types/BoardTypes";
 
 export class BoardDao implements IBoardDao {
 	async getBoardsSharedWithUser(userUuid: string): Promise<Board[] | []> {
@@ -25,5 +30,8 @@ export class BoardDao implements IBoardDao {
 			boardsOwned.push(board);
 		}
 		return boardsOwned;
+	}
+	async createBoard(data: Board): Promise<void> {
+		boardsTable.push(data);
 	}
 }
