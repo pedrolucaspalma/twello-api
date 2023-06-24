@@ -20,7 +20,9 @@ export class CryptUtil {
 		name: string;
 		email: string;
 	}): string {
-		const token = jsonwebtoken.sign(userData, SECRET as string);
+		const token = jsonwebtoken.sign(userData, SECRET as string, {
+			expiresIn: 600,
+		});
 		return token;
 	}
 }
