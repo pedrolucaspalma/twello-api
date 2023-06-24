@@ -2,6 +2,7 @@ import { IUserDao } from "../interfaces/IUserDao";
 import { IUserService } from "../interfaces/IUserService";
 import { CreateUserPayload, SignInPayload } from "../types/UserTypes";
 import { CryptUtil } from "../utils/CryptUtil";
+import { StatusError } from "../utils/StatusErrors";
 
 export class UserService implements IUserService {
 	constructor(private readonly userDao: IUserDao) {}
@@ -9,7 +10,7 @@ export class UserService implements IUserService {
 		const emailIsAvailable = await this.userDao.isEmailAvailable(
 			userData.email
 		);
-		if (!emailIsAvailable) throw new Error("email already in use");
+		if (!emailIsAvailable) throw new StatusError(400, "email already in use");
 
 		const encryptedPassword = await CryptUtil.hashPassword(userData.password);
 		const formattedData = { ...userData, password: encryptedPassword };
@@ -24,7 +25,7 @@ export class UserService implements IUserService {
 			signInData.password,
 			user.password
 		);
-		if (!passwordMatches) throw new Error("Invalid credentials");
+		if (!passwordMatches) throw new StatusError(400, "Invalid credentials");
 
 		const token = CryptUtil.generateJWT({
 			uuid: user.uuid,

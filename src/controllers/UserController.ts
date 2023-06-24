@@ -12,10 +12,7 @@ export class UserController {
 			return this.userDao
 				.listUsers()
 				.then((users) => res.status(200).send(users))
-				.catch((e) => {
-					res.status(400).send({ Error: "Bad Request" });
-					console.log(e);
-				});
+				.catch(next);
 		};
 	}
 
@@ -25,10 +22,7 @@ export class UserController {
 			return this.userService
 				.createUser(data)
 				.then(() => res.status(201).send())
-				.catch((e) => {
-					res.status(400).send({ Error: "Bad Request" });
-					console.log(e);
-				});
+				.catch(next);
 		};
 	}
 
@@ -38,10 +32,7 @@ export class UserController {
 			return this.userService
 				.signIn(data)
 				.then((token) => res.status(200).send({ token }))
-				.catch((e) => {
-					res.status(400).send({ Error: "Bad Request" });
-					console.log(e);
-				});
+				.catch(next);
 		};
 	}
 }
