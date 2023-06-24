@@ -33,7 +33,7 @@ export const usersTable: User[] = [
 		uuid: "74aa8bd0-ff7c-449b-8c94-a0513178ab94",
 		name: "Pedro Palma",
 		email: "pedro@email.com",
-		password: "hfdsoiughfdiugnfdi-uhfdg9undf",
+		password: "$2a$10$PitnTFirasAzeBn9BzksXOHMRkqClvlVcfV2r.1LM0gk8V/kdwm.e",
 		createdAt: 1687573903886,
 	},
 	{
