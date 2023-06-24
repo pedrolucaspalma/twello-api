@@ -9,6 +9,12 @@ export type SignInPayload = {
 	password: string;
 };
 
+export type DecodedTokenUserPayload = {
+	uuid: string;
+	name: string;
+	email: string;
+};
+
 export type User = {
 	uuid: string;
 	name: string;
