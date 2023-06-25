@@ -15,13 +15,13 @@ export class UserDao implements IUserDao {
 	async create(userCreationPayload: CreateUserPayload): Promise<void> {
 		usersTable.push({
 			...userCreationPayload,
-			uuid: v4(),
+			id: v4(),
 			createdAt: new Date().getTime(),
 		});
 	}
 
 	async findByUuid(uuid: string): Promise<User | null> {
-		const user = usersTable.find((u) => u.uuid === uuid);
+		const user = usersTable.find((u) => u.id === uuid);
 		if (!user) return null;
 		return user;
 	}

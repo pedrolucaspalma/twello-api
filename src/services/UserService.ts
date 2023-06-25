@@ -36,7 +36,7 @@ export class UserService implements IUserService {
 		if (!passwordMatches) throw new StatusError(401, "Invalid credentials");
 
 		const token = CryptUtil.generateJWT({
-			uuid: user.uuid,
+			uuid: user.id,
 			email: user.email,
 			name: user.name,
 		});

@@ -17,7 +17,7 @@ export class BoardDao implements IBoardDao {
 		}
 
 		const boards = boardUuids.map((boardUuid) => {
-			const board = boardsTable.find((board) => board.uuid === boardUuid);
+			const board = boardsTable.find((board) => board.id === boardUuid);
 			return board;
 		});
 
@@ -27,7 +27,7 @@ export class BoardDao implements IBoardDao {
 	async getBoardsOwnedByUser(userUuid: string): Promise<Board[]> {
 		const boardsOwned: Board[] = [];
 		for (const board of boardsTable) {
-			if (board.ownerUserUuid !== userUuid) continue;
+			if (board.ownerUserId !== userUuid) continue;
 			boardsOwned.push(board);
 		}
 		return boardsOwned;
@@ -43,7 +43,7 @@ export class BoardDao implements IBoardDao {
 			backgroundColor: defaultBackgroundColor,
 			textColor: defaultTextColor,
 			...data,
-			uuid: v4(),
+			id: v4(),
 			createdAt: new Date().getTime(),
 		};
 
@@ -51,7 +51,7 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async getBoard(boardUuid: string): Promise<Board | null> {
-		const board = boardsTable.find((board) => board.uuid === boardUuid);
+		const board = boardsTable.find((board) => board.id === boardUuid);
 		if (!board) return null;
 		return board;
 	}
@@ -73,7 +73,7 @@ export class BoardDao implements IBoardDao {
 		boardUuid: string,
 		data: BoardUpdatePayload
 	): Promise<void> {
-		const board = boardsTable.find((board) => board.uuid === boardUuid);
+		const board = boardsTable.find((board) => board.id === boardUuid);
 		if (!board) return;
 		if (data.title) board.title = data.title;
 		if (data.backgroundColor) board.backgroundColor = data.backgroundColor;

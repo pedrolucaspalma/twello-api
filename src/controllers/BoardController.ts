@@ -6,7 +6,7 @@ export class BoardController {
 
 	updateBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { uuid } = req.user;
+			const { id: uuid } = req.user;
 			const { boardUuid } = req.params;
 			const data = req.body;
 

@@ -1,15 +1,30 @@
 export type Board = {
-	uuid: string;
+	id: string;
 	title: string;
-	ownerUserUuid: string;
+	ownerUserId: string;
 	backgroundColor: string;
 	textColor: string;
-	// content?: [];
 	createdAt: number;
 };
 
+export type Column = {
+	id: string;
+	boardId: string;
+	index: string;
+	title: string;
+};
+
+export type Card = {
+	id: string;
+	columnId: string;
+	index: string;
+	content: string;
+	createdAt: number;
+	updatedAt: number;
+};
+
 export type BoardCreationPayload = {
-	ownerUserUuid: string;
+	ownerUserId: string;
 	title?: string; // Defaults "New board"
 	backgroundColor?: string; // Defaults #FFFFFF
 	textColor?: string; // Defaults #000000

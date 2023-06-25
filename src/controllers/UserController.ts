@@ -38,7 +38,7 @@ export class UserController {
 
 	listBoards() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { uuid } = req.user;
+			const { id: uuid } = req.user;
 			return this.userService
 				.listBoards(uuid)
 				.then((boards) => res.status(200).send({ boards }))
