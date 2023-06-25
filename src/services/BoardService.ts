@@ -11,30 +11,30 @@ export class BoardService implements IBoardService {
 	}
 
 	async updateBoard(
-		boardUuid: string,
-		requestingUserUuid: string,
+		boardId: string,
+		requestingUserId: string,
 		data: BoardUpdatePayload
 	): Promise<void> {
-		const board = await this.boardDao.getBoard(boardUuid);
+		const board = await this.boardDao.getBoard(boardId);
 		if (!board) throw new StatusError(404, "Board not found");
 
 		const isAllowed = await this.isUserAllowedToEditBoard(
-			requestingUserUuid,
-			boardUuid
+			requestingUserId,
+			boardId
 		);
 		if (!isAllowed)
 			throw new StatusError(401, "User unauthorized to perform this action");
 
-		await this.boardDao.updateBoard(boardUuid, data);
+		await this.boardDao.updateBoard(boardId, data);
 	}
 
 	async isUserAllowedToEditBoard(
-		userUuid: string,
-		boardUuid: string
+		userId: string,
+		boardId: string
 	): Promise<boolean> {
 		const association = await this.boardDao.getUserAssociationWithBoard(
-			boardUuid,
-			userUuid
+			boardId,
+			userId
 		);
 		if (!association) return false;
 		return association.canEdit;

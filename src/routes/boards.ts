@@ -7,7 +7,7 @@ const boardController = ControllersFactory.makeBoardController();
 const router = express.Router();
 
 router.put(
-	"/:uuid/update",
+	"/:id/update",
 	authenticationMiddleware(),
 	boardController.updateBoard()
 );

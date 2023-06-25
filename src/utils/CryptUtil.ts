@@ -16,7 +16,7 @@ export class CryptUtil {
 		return bcrypt.compare(payloadPassword, userPassword);
 	}
 	static generateJWT(userData: {
-		uuid: string;
+		id: string;
 		name: string;
 		email: string;
 	}): string {

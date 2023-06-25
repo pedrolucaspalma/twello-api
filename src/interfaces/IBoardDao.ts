@@ -6,13 +6,13 @@ import {
 } from "../types/BoardTypes";
 
 export interface IBoardDao {
-	getBoardsSharedWithUser(userUuid: string): Promise<Board[]>;
-	getBoardsOwnedByUser(userUuid: string): Promise<Board[]>;
+	getBoardsSharedWithUser(userId: string): Promise<Board[]>;
+	getBoardsOwnedByUser(userId: string): Promise<Board[]>;
 	createBoard(data: BoardCreationPayload): Promise<void>;
-	updateBoard(boardUuid: string, data: BoardUpdatePayload): Promise<void>;
-	getBoard(boardUuid: string): Promise<Board | null>;
+	updateBoard(boardId: string, data: BoardUpdatePayload): Promise<void>;
+	getBoard(boardId: string): Promise<Board | null>;
 	getUserAssociationWithBoard(
-		boardUuid: string,
-		userUuid: string
+		boardId: string,
+		userId: string
 	): Promise<UsersSharedBoardAssociation | null>;
 }

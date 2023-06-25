@@ -38,9 +38,9 @@ export class UserController {
 
 	listBoards() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { id: uuid } = req.user;
+			const { id: id } = req.user;
 			return this.userService
-				.listBoards(uuid)
+				.listBoards(id)
 				.then((boards) => res.status(200).send({ boards }))
 				.catch(next);
 		};

@@ -7,5 +7,5 @@ import {
 export interface IUserService {
 	createUser(userData: CreateUserPayload): Promise<void>;
 	signIn(signInData: SignInPayload): Promise<string>;
-	listBoards(userUuid: string): Promise<UserBoardsList>;
+	listBoards(userId: string): Promise<UserBoardsList>;
 }

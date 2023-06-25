@@ -37,13 +37,13 @@ export type BoardUpdatePayload = {
 };
 
 export type UsersSharedBoardAssociation = {
-	userUuid: string;
-	boardUuid: string;
+	userId: string;
+	boardId: string;
 	canEdit: boolean; // Defaults false
 	isFavorite: boolean; // Defaults false
 };
 
 export type BoardUserAssociationCreationPayload = {
-	userUuid: string;
-	boardUuid: string;
+	userId: string;
+	boardId: string;
 };

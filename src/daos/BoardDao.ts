@@ -9,25 +9,25 @@ import {
 } from "../types/BoardTypes";
 
 export class BoardDao implements IBoardDao {
-	async getBoardsSharedWithUser(userUuid: string): Promise<Board[] | []> {
-		const boardUuids: string[] = [];
+	async getBoardsSharedWithUser(userId: string): Promise<Board[] | []> {
+		const boardIds: string[] = [];
 		for (const shared of usersSharedBoardsTable) {
-			if (shared.userUuid !== userUuid) continue;
-			boardUuids.push(shared.boardUuid);
+			if (shared.userId !== userId) continue;
+			boardIds.push(shared.boardId);
 		}
 
-		const boards = boardUuids.map((boardUuid) => {
-			const board = boardsTable.find((board) => board.id === boardUuid);
+		const boards = boardIds.map((boardId) => {
+			const board = boardsTable.find((board) => board.id === boardId);
 			return board;
 		});
 
 		return boards as Board[];
 	}
 
-	async getBoardsOwnedByUser(userUuid: string): Promise<Board[]> {
+	async getBoardsOwnedByUser(userId: string): Promise<Board[]> {
 		const boardsOwned: Board[] = [];
 		for (const board of boardsTable) {
-			if (board.ownerUserId !== userUuid) continue;
+			if (board.ownerUserId !== userId) continue;
 			boardsOwned.push(board);
 		}
 		return boardsOwned;
@@ -50,30 +50,27 @@ export class BoardDao implements IBoardDao {
 		boardsTable.push(formattedData);
 	}
 
-	async getBoard(boardUuid: string): Promise<Board | null> {
-		const board = boardsTable.find((board) => board.id === boardUuid);
+	async getBoard(boardId: string): Promise<Board | null> {
+		const board = boardsTable.find((board) => board.id === boardId);
 		if (!board) return null;
 		return board;
 	}
 
 	async getUserAssociationWithBoard(
-		boardUuid: string,
-		userUuid: string
+		boardId: string,
+		userId: string
 	): Promise<UsersSharedBoardAssociation | null> {
 		const association = usersSharedBoardsTable.find(
 			(association) =>
-				association.boardUuid === boardUuid && association.userUuid === userUuid
+				association.boardId === boardId && association.userId === userId
 		);
 
 		if (!association) return null;
 		return association;
 	}
 
-	async updateBoard(
-		boardUuid: string,
-		data: BoardUpdatePayload
-	): Promise<void> {
-		const board = boardsTable.find((board) => board.id === boardUuid);
+	async updateBoard(boardId: string, data: BoardUpdatePayload): Promise<void> {
+		const board = boardsTable.find((board) => board.id === boardId);
 		if (!board) return;
 		if (data.title) board.title = data.title;
 		if (data.backgroundColor) board.backgroundColor = data.backgroundColor;

@@ -20,8 +20,8 @@ export class UserDao implements IUserDao {
 		});
 	}
 
-	async findByUuid(uuid: string): Promise<User | null> {
-		const user = usersTable.find((u) => u.id === uuid);
+	async findById(id: string): Promise<User | null> {
+		const user = usersTable.find((u) => u.id === id);
 		if (!user) return null;
 		return user;
 	}

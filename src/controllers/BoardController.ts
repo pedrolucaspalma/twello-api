@@ -6,12 +6,12 @@ export class BoardController {
 
 	updateBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { id: uuid } = req.user;
-			const { boardUuid } = req.params;
+			const { id } = req.user;
+			const { boardId } = req.params;
 			const data = req.body;
 
 			return this.boardService
-				.updateBoard(boardUuid, uuid, data)
+				.updateBoard(boardId, id, data)
 				.then(() => res.status(200).send())
 				.catch(next);
 		};

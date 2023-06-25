@@ -36,7 +36,7 @@ export class UserService implements IUserService {
 		if (!passwordMatches) throw new StatusError(401, "Invalid credentials");
 
 		const token = CryptUtil.generateJWT({
-			uuid: user.id,
+			id: user.id,
 			email: user.email,
 			name: user.name,
 		});
@@ -44,10 +44,10 @@ export class UserService implements IUserService {
 		return token;
 	}
 
-	async listBoards(userUuid: string): Promise<UserBoardsList> {
+	async listBoards(userId: string): Promise<UserBoardsList> {
 		const [owned, shared] = await Promise.all([
-			this.boardDao.getBoardsOwnedByUser(userUuid),
-			this.boardDao.getBoardsSharedWithUser(userUuid),
+			this.boardDao.getBoardsOwnedByUser(userId),
+			this.boardDao.getBoardsSharedWithUser(userId),
 		]);
 		const response: UserBoardsList = {
 			owned,
