@@ -18,7 +18,7 @@ export type Card = {
 	id: string;
 	columnId: string;
 	index: number;
-	content: string;
+	content: string | null;
 	createdAt: number;
 	updatedAt: number;
 };
