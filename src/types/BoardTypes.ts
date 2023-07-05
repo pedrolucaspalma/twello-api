@@ -10,14 +10,14 @@ export type Board = {
 export type Column = {
 	id: string;
 	boardId: string;
-	index: string;
+	index: number;
 	title: string;
 };
 
 export type Card = {
 	id: string;
 	columnId: string;
-	index: string;
+	index: number;
 	content: string;
 	createdAt: number;
 	updatedAt: number;
