@@ -1,10 +1,24 @@
 import { v4 } from "uuid";
-import { boardsTable, usersSharedBoardsTable } from "../database";
-import { IBoardDao } from "../interfaces/IBoardDao";
+import {
+	boardsTable,
+	cardsTable,
+	columnsTable,
+	usersSharedBoardsTable,
+} from "../database";
+import {
+	CardCreationPayload,
+	ColumnCreationPayload,
+	IBoardDao,
+	OrganizeCardsParams,
+	ReorderColumnParams,
+	UpdateCardContent,
+} from "../interfaces/IBoardDao";
 import {
 	Board,
 	BoardCreationPayload,
 	BoardUpdatePayload,
+	Card,
+	Column,
 	UsersSharedBoardAssociation,
 } from "../types/BoardTypes";
 
@@ -75,5 +89,39 @@ export class BoardDao implements IBoardDao {
 		if (data.title) board.title = data.title;
 		if (data.backgroundColor) board.backgroundColor = data.backgroundColor;
 		if (data.textColor) board.textColor = data.textColor;
+	}
+
+	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {
+		const newColumn: Column = {
+			id: v4(),
+			index: 0, // precisa ser o maior indice das colunas existentes no board
+			boardId: params.boardId,
+			title: params.title ?? "New Column",
+		};
+		columnsTable.push(newColumn);
+	}
+
+	async reorderColumns(params: ReorderColumnParams): Promise<void> {
+		// mais facil com sql
+	}
+
+	async addCardToBoard(params: CardCreationPayload): Promise<void> {
+		const newCard: Card = {
+			id: v4(),
+			index: 0, // precisa ser o maior indice...
+			columnId: params.columnId,
+			content: null,
+			createdAt: new Date().getTime(),
+			updatedAt: new Date().getTime(),
+		};
+		cardsTable.push(newCard);
+	}
+
+	async organizeCards(params: OrganizeCardsParams): Promise<void> {
+		// mais facil com sql
+	}
+
+	async updateCardContent(params: UpdateCardContent): Promise<void> {
+		// mais facil com sql
 	}
 }
