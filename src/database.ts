@@ -1,4 +1,9 @@
-import { Board, UsersSharedBoardAssociation } from "./types/BoardTypes";
+import {
+	Board,
+	Card,
+	Column,
+	UsersSharedBoardAssociation,
+} from "./types/BoardTypes";
 import { User } from "./types/UserTypes";
 
 export const boardsTable: Board[] = [
@@ -50,5 +55,25 @@ export const usersTable: User[] = [
 		email: "usuario@email.com",
 		password: "4358433443uhfdg9undf",
 		createdAt: 1287853423324,
+	},
+];
+
+export const columnsTable: Column[] = [
+	{
+		id: "gasdc147-85ee-46a0-b23b-b9casda8b8e8",
+		boardId: "2713c147-85ee-46a0-b23b-b9cce1a8b8e8",
+		index: 0,
+		title: "Doing",
+	},
+];
+
+export const cardsTable: Card[] = [
+	{
+		id: "0f04eec4-ce48-4a16-a119-ac28bd20bfb0",
+		columnId: "gasdc147-85ee-46a0-b23b-b9casda8b8e8",
+		content: "Testando conteúdo",
+		index: 0,
+		createdAt: new Date().getTime(),
+		updatedAt: new Date().getTime(),
 	},
 ];
