@@ -5,6 +5,7 @@ export type Board = {
 	backgroundColor: string;
 	textColor: string;
 	createdAt: number;
+	columns?: Column[];
 };
 
 export type Column = {
@@ -12,6 +13,7 @@ export type Column = {
 	boardId: string;
 	index: number;
 	title: string;
+	cards?: Card[];
 };
 
 export type Card = {
