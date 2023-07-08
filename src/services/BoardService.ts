@@ -1,6 +1,10 @@
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IBoardService } from "../interfaces/IBoardService";
-import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
+import {
+	Board,
+	BoardCreationPayload,
+	BoardUpdatePayload,
+} from "../types/BoardTypes";
 import { StatusError } from "../utils/StatusErrors";
 
 export class BoardService implements IBoardService {
@@ -38,5 +42,9 @@ export class BoardService implements IBoardService {
 		);
 		if (!association) return false;
 		return association.canEdit;
+	}
+
+	async getBoardWithColumns(boardId: string, userId: string): Promise<Board> {
+		throw new Error("To be implemented");
 	}
 }

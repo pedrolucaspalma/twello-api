@@ -5,20 +5,22 @@ export type Board = {
 	backgroundColor: string;
 	textColor: string;
 	createdAt: number;
+	columns?: Column[];
 };
 
 export type Column = {
 	id: string;
 	boardId: string;
-	index: string;
+	index: number;
 	title: string;
+	cards?: Card[];
 };
 
 export type Card = {
 	id: string;
 	columnId: string;
-	index: string;
-	content: string;
+	index: number;
+	content: string | null;
 	createdAt: number;
 	updatedAt: number;
 };
