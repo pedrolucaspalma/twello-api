@@ -1,6 +1,6 @@
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IUserDao } from "../interfaces/IUserDao";
-import { IUserService } from "../interfaces/IUserService";
+import { IUserService, createUserReturn } from "../interfaces/IUserService";
 import {
 	CreateUserPayload,
 	SignInPayload,
@@ -14,7 +14,14 @@ export class UserService implements IUserService {
 		private readonly userDao: IUserDao,
 		private readonly boardDao: IBoardDao
 	) {}
-	async createUser(userData: CreateUserPayload): Promise<void> {
+	async createUser(userData: CreateUserPayload): Promise<createUserReturn> {
+		if (userData.password.length < 8) {
+			throw new StatusError(
+				400,
+				"Passwords must be composed of least 8 characters"
+			);
+		}
+
 		const emailIsAvailable = await this.userDao.isEmailAvailable(
 			userData.email
 		);
@@ -22,7 +29,20 @@ export class UserService implements IUserService {
 
 		const encryptedPassword = await CryptUtil.hashPassword(userData.password);
 		const formattedData = { ...userData, password: encryptedPassword };
-		await this.userDao.create(formattedData);
+		const user = await this.userDao.create(formattedData);
+
+		const values: createUserReturn = {
+			user,
+			token: null,
+		};
+
+		if (!user) return values;
+
+		values.token = await this.signIn({
+			email: userData.email,
+			password: userData.password,
+		});
+		return values;
 	}
 
 	async signIn(signInData: SignInPayload): Promise<string> {

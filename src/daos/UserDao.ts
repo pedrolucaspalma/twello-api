@@ -12,12 +12,14 @@ export class UserDao implements IUserDao {
 		return true;
 	}
 
-	async create(userCreationPayload: CreateUserPayload): Promise<void> {
+	async create(userCreationPayload: CreateUserPayload): Promise<User | null> {
+		const userId = v4();
 		usersTable.push({
 			...userCreationPayload,
-			id: v4(),
+			id: userId,
 			createdAt: new Date().getTime(),
 		});
+		return this.findById(userId);
 	}
 
 	async findById(id: string): Promise<User | null> {
