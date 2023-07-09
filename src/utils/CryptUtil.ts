@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
-const { SECRET } = process.env;
+const { SECRET, ENVIRONMENT } = process.env;
 
 export class CryptUtil {
 	static async hashPassword(password: string): Promise<string> {
@@ -21,8 +21,14 @@ export class CryptUtil {
 		email: string;
 	}): string {
 		const token = jsonwebtoken.sign(userData, SECRET as string, {
-			expiresIn: 600,
+			expiresIn: this.getJWTExpireTime(ENVIRONMENT as string),
 		});
 		return token;
+	}
+
+	static getJWTExpireTime(env: string): number {
+		if (env === "development") return 3600;
+		if (env === "production") return 86400;
+		return 3600;
 	}
 }
