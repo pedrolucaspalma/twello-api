@@ -1,11 +1,4 @@
-import {
-	Entity,
-	Column,
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	BaseEntity,
-	PrimaryColumn,
-} from "typeorm";
+import { Entity, Column } from "typeorm";
 import { BaseContent } from "./BaseContent";
 
 @Entity("Users")

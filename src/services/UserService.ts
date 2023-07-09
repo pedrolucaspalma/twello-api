@@ -22,10 +22,10 @@ export class UserService implements IUserService {
 			);
 		}
 
-		// const emailIsAvailable = await this.userDao.isEmailAvailable(
-		// 	userData.email
-		// );
-		// if (!emailIsAvailable) throw new StatusError(400, "email already in use");
+		const emailIsAvailable = await this.userDao.isEmailAvailable(
+			userData.email
+		);
+		if (!emailIsAvailable) throw new StatusError(400, "email already in use");
 
 		const encryptedPassword = await CryptUtil.hashPassword(userData.password);
 		const formattedData = { ...userData, password: encryptedPassword };
