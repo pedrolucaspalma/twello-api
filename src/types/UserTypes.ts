@@ -1,4 +1,4 @@
-import { Board } from "./BoardTypes";
+import { BoardType } from "../entity/Board";
 
 export type CreateUserPayload = {
 	name: string;
@@ -18,6 +18,6 @@ export type DecodedTokenUserPayload = {
 };
 
 export type UserBoardsList = {
-	owned: Board[];
-	shared: Board[];
+	owned: BoardType[];
+	shared: BoardType[];
 };
