@@ -6,6 +6,7 @@ import cors from "cors";
 
 import { AppDataSource } from "./database/data-source";
 import { StatusError, StatusErrorType } from "./utils/StatusErrors";
+import cors from "cors";
 
 import router from "./routes";
 
