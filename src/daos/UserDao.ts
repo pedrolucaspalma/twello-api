@@ -1,6 +1,5 @@
 import { IUserDao } from "../interfaces/IUserDao";
 import { CreateUserPayload } from "../types/UserTypes";
-import { usersTable } from "../database";
 import { User, UserType } from "../entity/User";
 import { AppDataSource } from "../database/data-source";
 
