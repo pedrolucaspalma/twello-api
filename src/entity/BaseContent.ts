@@ -16,4 +16,10 @@ export abstract class BaseContent extends BaseEntity {
 	updatedAt: string;
 }
 
+export type BaseContentType = {
+	id: string;
+	createdAt: string;
+	updatedAt: string;
+};
+
 export type DefaultPrivateFields = "createdAt" | "updatedAt";
