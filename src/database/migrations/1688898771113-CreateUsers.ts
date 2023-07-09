@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class CreateUsers1688898771113 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(
-			`CREATE TABLE Users (
+			`CREATE TABLE "Users" (
                 id UUID PRIMARY KEY,
                 name VARCHAR(50) NOT NULL,
                 password VARCHAR(50) NOT NULL,
