@@ -1,16 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-	@PrimaryGeneratedColumn()
-	id: number;
+	@PrimaryGeneratedColumn("uuid")
+	id: string;
 
 	@Column()
-	firstName: string;
+	name: string;
 
 	@Column()
-	lastName: string;
+	password: string;
 
 	@Column()
-	age: number;
+	email: string;
+
+	@Column({ default: new Date().getMilliseconds() })
+	createdAt: number;
 }
