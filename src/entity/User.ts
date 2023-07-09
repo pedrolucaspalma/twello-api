@@ -1,10 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	CreateDateColumn,
+	BaseEntity,
+	PrimaryColumn,
+} from "typeorm";
+import { BaseContent } from "./BaseContent";
 
-@Entity()
-export class User {
-	@PrimaryGeneratedColumn("uuid")
-	id: string;
-
+@Entity("Users")
+export class User extends BaseContent {
 	@Column()
 	name: string;
 
@@ -13,7 +18,13 @@ export class User {
 
 	@Column()
 	email: string;
-
-	@Column({ default: new Date().getMilliseconds() })
-	createdAt: number;
 }
+
+export type UserType = {
+	id: string;
+	name: string;
+	password: string;
+	email: string;
+	createdAt: string;
+	updatedAt: string;
+};

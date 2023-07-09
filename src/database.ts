@@ -1,10 +1,10 @@
+import { UserType } from "./entity/User";
 import {
 	Board,
 	Card,
 	Column,
 	UsersSharedBoardAssociation,
 } from "./types/BoardTypes";
-import { User } from "./types/UserTypes";
 
 export const boardsTable: Board[] = [
 	{
@@ -34,27 +34,30 @@ export const usersSharedBoardsTable: UsersSharedBoardAssociation[] = [
 	},
 ];
 
-export const usersTable: User[] = [
+export const usersTable: UserType[] = [
 	{
 		id: "74aa8bd0-ff7c-449b-8c94-a0513178ab94",
 		name: "Pedro Palma",
 		email: "pedro@email.com",
 		password: "$2a$10$PitnTFirasAzeBn9BzksXOHMRkqClvlVcfV2r.1LM0gk8V/kdwm.e",
-		createdAt: 1687573903886,
+		createdAt: "qlqr string",
+		updatedAt: "qlqr string",
 	},
 	{
 		id: "69cf3341-b40d-45d2-b602-313d83b5df5e",
 		name: "Vitor Barroso",
 		email: "vitor@email.com",
 		password: "dsfhsdufsd-uhfdg9undf",
-		createdAt: 1687573923324,
+		createdAt: "qlqr string",
+		updatedAt: "qlqr string",
 	},
 	{
 		id: "69cf3341-b40d-45d2-b602-313d83b5df5e",
 		name: "Usuario Exemplo",
 		email: "usuario@email.com",
 		password: "4358433443uhfdg9undf",
-		createdAt: 1287853423324,
+		createdAt: "qlqr string",
+		updatedAt: "qlqr string",
 	},
 ];
 

@@ -17,14 +17,6 @@ export type DecodedTokenUserPayload = {
 	email: string;
 };
 
-export type User = {
-	id: string;
-	name: string;
-	password: string;
-	email: string;
-	createdAt: number;
-};
-
 export type UserBoardsList = {
 	owned: Board[];
 	shared: Board[];

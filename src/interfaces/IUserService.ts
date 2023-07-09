@@ -1,7 +1,7 @@
+import { User, UserType } from "../entity/User";
 import {
 	CreateUserPayload,
 	SignInPayload,
-	User,
 	UserBoardsList,
 } from "../types/UserTypes";
 
@@ -12,6 +12,6 @@ export interface IUserService {
 }
 
 export type createUserReturn = {
-	user: User | null;
+	user: UserType;
 	token: string | null;
 };

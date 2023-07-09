@@ -1,40 +1,43 @@
-import { v4 } from "uuid";
-
 import { IUserDao } from "../interfaces/IUserDao";
-import { CreateUserPayload, User } from "../types/UserTypes";
+import { CreateUserPayload } from "../types/UserTypes";
 import { usersTable } from "../database";
-import { Board } from "../types/BoardTypes";
+import { User, UserType } from "../entity/User";
+import { AppDataSource } from "../database/data-source";
+
+const usersRepository = AppDataSource.getRepository("User");
 
 export class UserDao implements IUserDao {
 	async isEmailAvailable(email: string): Promise<boolean> {
-		const user = usersTable.find((u) => u.email === email);
+		const user = await usersRepository.findOne({ where: { email } });
 		if (user) return false;
 		return true;
 	}
 
-	async create(userCreationPayload: CreateUserPayload): Promise<User | null> {
-		const userId = v4();
-		usersTable.push({
-			...userCreationPayload,
-			id: userId,
-			createdAt: new Date().getTime(),
+	async create(userCreationPayload: CreateUserPayload): Promise<UserType> {
+		const user = new User();
+		user.name = userCreationPayload.name;
+		user.email = userCreationPayload.email;
+		user.password = userCreationPayload.password;
+		await user.save();
+		return this.findById(user.id);
+	}
+
+	async findById(id: string): Promise<UserType> {
+		const userLiteral: any = await usersRepository.findOne({
+			where: { id },
 		});
-		return this.findById(userId);
+
+		return userLiteral as UserType;
 	}
 
-	async findById(id: string): Promise<User | null> {
-		const user = usersTable.find((u) => u.id === id);
+	async findByEmail(email: string): Promise<UserType | null> {
+		const user = await usersRepository.findOne({ where: { email } });
 		if (!user) return null;
-		return user;
+		return user as UserType;
 	}
 
-	async findByEmail(email: string): Promise<User | null> {
-		const user = usersTable.find((u) => u.email === email);
-		if (!user) return null;
-		return user;
-	}
-
-	async listUsers(): Promise<User[]> {
-		return usersTable;
+	async listUsers(): Promise<UserType[]> {
+		const users = await usersRepository.findBy({});
+		return users as UserType[];
 	}
 }

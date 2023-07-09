@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { IUserDao } from "../interfaces/IUserDao";
-import { IUserService } from "../interfaces/IUserService";
+import { IUserService, createUserReturn } from "../interfaces/IUserService";
 export class UserController {
 	constructor(
 		private readonly userService: IUserService,
@@ -21,7 +21,7 @@ export class UserController {
 			const data = req.body;
 			return this.userService
 				.createUser(data)
-				.then(() => res.status(201).send())
+				.then((data: createUserReturn) => res.status(201).send(data))
 				.catch(next);
 		};
 	}
