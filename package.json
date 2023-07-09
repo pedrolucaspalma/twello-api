@@ -1,7 +1,7 @@
 {
 	"name": "twello-api",
 	"scripts": {
-		"build": "tsc",
+		"build": "rimraf ./build && tsc",
 		"start": "ts-node src/index.ts",
 		"dev": "ts-node-dev ./src/index.ts",
 		"typeorm": "typeorm-ts-node-commonjs",
