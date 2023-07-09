@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
 	synchronize: false,
 	logging: false,
 	entities: [User], // "src/entities/**/*.ts"
-	migrations: [CreateUsers1688898771113], // "src/database/migrations/**/*.ts"
+	migrations: ["build/database/migrations/**/*.js"], // "src/database/migrations/**/*.ts"
 	subscribers: [], //"src/subscribers/**/*.ts"
 	// cli: {
 	// 	entitiesDir: "src/entities",
