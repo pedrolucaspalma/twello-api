@@ -17,6 +17,7 @@ import { AppDataSource } from "../database/data-source";
 import { Board, BoardType } from "../entity/Board";
 
 const boardsRepository = AppDataSource.getRepository("Board");
+const sharedBoardRepository = AppDataSource.getRepository("SharedBoards");
 
 export class BoardDao implements IBoardDao {
 	constructor(private readonly userDao: IUserDao) {}
@@ -58,7 +59,10 @@ export class BoardDao implements IBoardDao {
 		boardId: string,
 		userId: string
 	): Promise<UsersSharedBoardAssociation | null> {
-		return null;
+		const association = await sharedBoardRepository.findOne({
+			where: { boardId, userId },
+		});
+		return association as UsersSharedBoardAssociation;
 	}
 
 	async updateBoard(
@@ -81,9 +85,7 @@ export class BoardDao implements IBoardDao {
 
 	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {}
 
-	async reorderColumns(params: ReorderColumnParams): Promise<void> {
-		// mais facil com sql
-	}
+	async reorderColumns(params: ReorderColumnParams): Promise<void> {}
 
 	async addCardToBoard(params: CardCreationPayload): Promise<void> {}
 
