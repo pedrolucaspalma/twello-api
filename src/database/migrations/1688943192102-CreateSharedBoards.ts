@@ -7,8 +7,8 @@ export class CreateSharedBoards1688943192102 implements MigrationInterface {
                 "id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 "userId" UUID NOT NULL,
                 "boardId" UUID NOT NULL,
-                "canEdit" VARCHAR(50) NOT NULL,
-                "isFavorite" VARCHAR(50) NOT NULL,
+                "canEdit" BOOLEAN NOT NULL,
+                "isFavorite" BOOLEAN NOT NULL,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
 				"updatedAt" TIMESTAMP NOT NULL DEFAULT NOW(),
 
@@ -24,6 +24,6 @@ export class CreateSharedBoards1688943192102 implements MigrationInterface {
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`DROP TABLE "Boards"`);
+		await queryRunner.query(`DROP TABLE "SharedBoards"`);
 	}
 }
