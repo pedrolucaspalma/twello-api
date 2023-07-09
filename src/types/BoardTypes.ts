@@ -1,13 +1,3 @@
-export type Board = {
-	id: string;
-	title: string;
-	ownerUserId: string;
-	backgroundColor: string;
-	textColor: string;
-	createdAt: number;
-	columns?: Column[];
-};
-
 export type Column = {
 	id: string;
 	boardId: string;

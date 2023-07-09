@@ -1,16 +1,19 @@
+import { BoardType } from "../entity/Board";
 import {
-	Board,
 	BoardCreationPayload,
 	BoardUpdatePayload,
 	UsersSharedBoardAssociation,
 } from "../types/BoardTypes";
 
 export interface IBoardDao {
-	getBoardsSharedWithUser(userId: string): Promise<Board[]>;
-	getBoardsOwnedByUser(userId: string): Promise<Board[]>;
-	createBoard(data: BoardCreationPayload): Promise<void>;
-	updateBoard(boardId: string, data: BoardUpdatePayload): Promise<void>;
-	getBoard(boardId: string): Promise<Board | null>;
+	getBoardsSharedWithUser(userId: string): Promise<BoardType[]>;
+	getBoardsOwnedByUser(userId: string): Promise<BoardType[]>;
+	createBoard(data: BoardCreationPayload): Promise<BoardType | null>;
+	updateBoard(
+		boardId: string,
+		data: BoardUpdatePayload
+	): Promise<BoardType | null>;
+	getBoard(boardId: string): Promise<BoardType | null>;
 	getUserAssociationWithBoard(
 		boardId: string,
 		userId: string

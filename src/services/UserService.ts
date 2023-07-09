@@ -1,6 +1,6 @@
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IUserDao } from "../interfaces/IUserDao";
-import { IUserService, createUserReturn } from "../interfaces/IUserService";
+import { IUserService, CreateUserReturn } from "../interfaces/IUserService";
 import {
 	CreateUserPayload,
 	SignInPayload,
@@ -14,7 +14,7 @@ export class UserService implements IUserService {
 		private readonly userDao: IUserDao,
 		private readonly boardDao: IBoardDao
 	) {}
-	async createUser(userData: CreateUserPayload): Promise<createUserReturn> {
+	async createUser(userData: CreateUserPayload): Promise<CreateUserReturn> {
 		if (userData.password.length < 8) {
 			throw new StatusError(
 				400,
@@ -31,7 +31,7 @@ export class UserService implements IUserService {
 		const formattedData = { ...userData, password: encryptedPassword };
 		const user = await this.userDao.create(formattedData);
 
-		const values: createUserReturn = {
+		const values: CreateUserReturn = {
 			user,
 			token: null,
 		};

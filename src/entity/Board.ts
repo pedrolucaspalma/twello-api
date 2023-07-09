@@ -1,18 +1,19 @@
-import { Entity, Column, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import {
 	BaseContent,
 	BaseContentType,
 	DefaultPrivateFields,
 } from "./BaseContent";
+
 import { User, UserType } from "./User";
 
-@Entity("Users")
+@Entity("Board")
 export class Board extends BaseContent {
 	@Column()
-	ownedUserId: string;
+	title: string;
 
 	@Column()
-	title: string;
+	ownerUserId: string;
 
 	@Column()
 	backgroundColor: string;
@@ -21,6 +22,7 @@ export class Board extends BaseContent {
 	textColor: string;
 
 	@ManyToOne(() => User, (user) => user.boards)
+	@JoinColumn({ name: "ownerUserId" })
 	user: User;
 }
 

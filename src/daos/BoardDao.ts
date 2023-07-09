@@ -14,7 +14,6 @@ import {
 	UpdateCardContent,
 } from "../interfaces/IBoardDao";
 import {
-	Board,
 	BoardCreationPayload,
 	BoardUpdatePayload,
 	Card,
@@ -22,8 +21,15 @@ import {
 	UsersSharedBoardAssociation,
 } from "../types/BoardTypes";
 
+import { IUserDao } from "../interfaces/IUserDao";
+import { AppDataSource } from "../database/data-source";
+import { Board, BoardType } from "../entity/Board";
+
+const boardsRepository = AppDataSource.getRepository("Board");
+
 export class BoardDao implements IBoardDao {
-	async getBoardsSharedWithUser(userId: string): Promise<Board[] | []> {
+	constructor(private readonly userDao: IUserDao) {}
+	async getBoardsSharedWithUser(userId: string): Promise<BoardType[] | []> {
 		const boardIds: string[] = [];
 		for (const shared of usersSharedBoardsTable) {
 			if (shared.userId !== userId) continue;
@@ -35,10 +41,10 @@ export class BoardDao implements IBoardDao {
 			return board;
 		});
 
-		return boards as Board[];
+		return boards as BoardType[];
 	}
 
-	async getBoardsOwnedByUser(userId: string): Promise<Board[]> {
+	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
 		const boardsOwned: Board[] = [];
 		for (const board of boardsTable) {
 			if (board.ownerUserId !== userId) continue;
@@ -47,27 +53,27 @@ export class BoardDao implements IBoardDao {
 		return boardsOwned;
 	}
 
-	async createBoard(data: BoardCreationPayload): Promise<void> {
+	async createBoard(data: BoardCreationPayload): Promise<BoardType | null> {
 		// These defaults are here because they will be handled by the defaultValues set in database columns
-		let defaultTitle = "New Board";
-		let defaultBackgroundColor = "#FFFFFF";
-		let defaultTextColor = "#000000";
-		const formattedData: Board = {
-			title: defaultTitle,
-			backgroundColor: defaultBackgroundColor,
-			textColor: defaultTextColor,
-			...data,
-			id: v4(),
-			createdAt: new Date().getTime(),
-		};
 
-		boardsTable.push(formattedData);
+		const board = new Board();
+		board.ownerUserId = data.ownerUserId;
+
+		board.title = data.title ?? "New Board";
+		board.backgroundColor = data.backgroundColor ?? "#FFFFFF";
+		board.textColor = data.textColor ?? "#000000";
+
+		await board.save();
+
+		return this.getBoard(board.id);
 	}
 
-	async getBoard(boardId: string): Promise<Board | null> {
-		const board = boardsTable.find((board) => board.id === boardId);
-		if (!board) return null;
-		return board;
+	async getBoard(boardId: string): Promise<BoardType | null> {
+		const board = await boardsRepository.findOne({
+			where: { id: boardId },
+		});
+
+		return board as BoardType;
 	}
 
 	async getUserAssociationWithBoard(
@@ -83,12 +89,21 @@ export class BoardDao implements IBoardDao {
 		return association;
 	}
 
-	async updateBoard(boardId: string, data: BoardUpdatePayload): Promise<void> {
-		const board = boardsTable.find((board) => board.id === boardId);
-		if (!board) return;
-		if (data.title) board.title = data.title;
-		if (data.backgroundColor) board.backgroundColor = data.backgroundColor;
-		if (data.textColor) board.textColor = data.textColor;
+	async updateBoard(
+		boardId: string,
+		data: BoardUpdatePayload
+	): Promise<BoardType | null> {
+		const board = await boardsRepository.findOne({
+			where: { id: boardId },
+		});
+
+		if (!board) return null;
+
+		board.title = data.title ?? board.title;
+		board.backgroundColor = data.backgroundColor ?? board.backgroundColor;
+		board.textColor = data.textColor ?? board.textColor;
+		await board.save();
+		return this.getBoard(board.id);
 	}
 
 	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {

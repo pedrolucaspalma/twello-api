@@ -1,4 +1,4 @@
-import { User, UserType } from "../entity/User";
+import { UserType } from "../entity/User";
 import {
 	CreateUserPayload,
 	SignInPayload,
@@ -6,12 +6,12 @@ import {
 } from "../types/UserTypes";
 
 export interface IUserService {
-	createUser(userData: CreateUserPayload): Promise<createUserReturn>;
+	createUser(userData: CreateUserPayload): Promise<CreateUserReturn>;
 	signIn(signInData: SignInPayload): Promise<string>;
 	listBoards(userId: string): Promise<UserBoardsList>;
 }
 
-export type createUserReturn = {
-	user: UserType;
+export type CreateUserReturn = {
+	user: UserType | null;
 	token: string | null;
 };

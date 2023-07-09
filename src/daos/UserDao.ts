@@ -6,6 +6,8 @@ import { AppDataSource } from "../database/data-source";
 const usersRepository = AppDataSource.getRepository("User");
 
 export class UserDao implements IUserDao {
+	constructor() {}
+
 	async isEmailAvailable(email: string): Promise<boolean> {
 		const user = await usersRepository.findOne({ where: { email } });
 		if (user) return false;
