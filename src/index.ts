@@ -4,7 +4,7 @@ import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-import { AppDataSource } from "./data-source";
+import { AppDataSource } from "./database/data-source";
 import { StatusError, StatusErrorType } from "./utils/StatusErrors";
 
 import router from "./routes";

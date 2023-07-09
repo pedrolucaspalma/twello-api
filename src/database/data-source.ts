@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entity/User";
+import { User } from "../entity/User";
+import { CreateUsers1688898771113 } from "./migrations/1688898771113-CreateUsers";
 
 const {
 	DATABASE_HOST,
@@ -22,7 +23,7 @@ export const AppDataSource = new DataSource({
 	synchronize: false,
 	logging: false,
 	entities: [User], // "src/entities/**/*.ts"
-	migrations: [], // "src/database/migrations/**/*.ts"
+	migrations: [CreateUsers1688898771113], // "src/database/migrations/**/*.ts"
 	subscribers: [], //"src/subscribers/**/*.ts"
 	// cli: {
 	// 	entitiesDir: "src/entities",
