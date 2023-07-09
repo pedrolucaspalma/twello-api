@@ -21,3 +21,6 @@ export type UserType = {
 	createdAt: string;
 	updatedAt: string;
 };
+
+type privateUserFields = "password" | "createdAt" | "updatedAt";
+export type PublicUserFields = Omit<UserType, privateUserFields>;
