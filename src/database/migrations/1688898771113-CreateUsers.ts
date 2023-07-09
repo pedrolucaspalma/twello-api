@@ -9,7 +9,7 @@ export class CreateUsers1688898771113 implements MigrationInterface {
                 "password" VARCHAR(255) NOT NULL,
                 "email" VARCHAR(50) UNIQUE NOT NULL,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
-				"updatedAt" TIMESTAMP
+				"updatedAt" TIMESTAMP NOT NULL DEFAULT NOW()
             )`
 		);
 	}
