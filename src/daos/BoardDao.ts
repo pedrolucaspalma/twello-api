@@ -27,9 +27,10 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
-		const boardsOwned: BoardType[] = [];
-
-		return boardsOwned;
+		const boardsOwned = await boardsRepository.find({
+			where: { ownerUserId: userId },
+		});
+		return boardsOwned as BoardType[];
 	}
 
 	async createBoard(data: BoardCreationPayload): Promise<BoardType | null> {
