@@ -45,7 +45,7 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
-		const boardsOwned: Board[] = [];
+		const boardsOwned: BoardType[] = [];
 		for (const board of boardsTable) {
 			if (board.ownerUserId !== userId) continue;
 			boardsOwned.push(board);
