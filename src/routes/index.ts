@@ -12,6 +12,6 @@ router.get("/api", async (req, res, next) => {
 });
 
 router.use("/user", userRoutes);
-router.use("/boards", boardRoutes);
+router.use("/board", boardRoutes);
 
 export default router;

@@ -6,7 +6,7 @@ import {
 } from "./BaseContent";
 
 import { User, UserType } from "./User";
-@Entity("Board")
+@Entity("Boards")
 export class Board extends BaseContent {
 	@Column()
 	title: string;
