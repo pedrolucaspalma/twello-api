@@ -15,3 +15,5 @@ export abstract class BaseContent extends BaseEntity {
 	@UpdateDateColumn()
 	updatedAt: string;
 }
+
+export type DefaultPrivateFields = "createdAt" | "updatedAt";

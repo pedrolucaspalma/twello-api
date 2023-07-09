@@ -1,5 +1,5 @@
 import { Entity, Column } from "typeorm";
-import { BaseContent } from "./BaseContent";
+import { BaseContent, DefaultPrivateFields } from "./BaseContent";
 
 @Entity("Users")
 export class User extends BaseContent {
@@ -22,5 +22,5 @@ export type UserType = {
 	updatedAt: string;
 };
 
-type privateUserFields = "password" | "createdAt" | "updatedAt";
+type privateUserFields = "password" | DefaultPrivateFields;
 export type PublicUserFields = Omit<UserType, privateUserFields>;
