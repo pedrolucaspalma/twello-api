@@ -1,3 +1,4 @@
+import { In } from "typeorm";
 import {
 	CardCreationPayload,
 	ColumnCreationPayload,
@@ -22,9 +23,15 @@ const sharedBoardRepository = AppDataSource.getRepository("SharedBoards");
 export class BoardDao implements IBoardDao {
 	constructor(private readonly userDao: IUserDao) {}
 	async getBoardsSharedWithUser(userId: string): Promise<BoardType[] | []> {
-		const boardIds: BoardType[] = [];
-
-		return boardIds;
+		const boardIds: string[] = await sharedBoardRepository
+			.find({
+				where: { userId },
+			})
+			.then((associations) => associations.map((a) => a.boardId));
+		const boards = await boardsRepository.find({
+			where: { id: In(boardIds) },
+		});
+		return boards as BoardType[];
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
