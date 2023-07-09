@@ -12,4 +12,10 @@ router.put(
 	boardController.updateBoard()
 );
 
+router.post(
+	"/create",
+	authenticationMiddleware(),
+	boardController.createBoard()
+);
+
 export default router;

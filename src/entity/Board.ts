@@ -6,7 +6,6 @@ import {
 } from "./BaseContent";
 
 import { User, UserType } from "./User";
-
 @Entity("Board")
 export class Board extends BaseContent {
 	@Column()
@@ -27,7 +26,7 @@ export class Board extends BaseContent {
 }
 
 export type BoardType = BaseContentType & {
-	ownedUserId: string;
+	ownerUserId: string;
 	title: string;
 	backgroundColor: string;
 	textColor: string;

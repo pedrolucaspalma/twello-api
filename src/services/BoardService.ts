@@ -1,16 +1,15 @@
+import { BoardType } from "../entity/Board";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IBoardService } from "../interfaces/IBoardService";
-import {
-	Board,
-	BoardCreationPayload,
-	BoardUpdatePayload,
-} from "../types/BoardTypes";
+import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 import { StatusError } from "../utils/StatusErrors";
 
 export class BoardService implements IBoardService {
 	constructor(private readonly boardDao: IBoardDao) {}
 
 	async createBoard(payload: BoardCreationPayload): Promise<void> {
+		if (!payload || !payload.ownerUserId)
+			throw new StatusError(400, "Every board must have a owner");
 		await this.boardDao.createBoard(payload);
 	}
 
@@ -44,7 +43,10 @@ export class BoardService implements IBoardService {
 		return association.canEdit;
 	}
 
-	async getBoardWithColumns(boardId: string, userId: string): Promise<Board> {
+	async getBoardWithColumns(
+		boardId: string,
+		userId: string
+	): Promise<BoardType> {
 		throw new Error("To be implemented");
 	}
 }

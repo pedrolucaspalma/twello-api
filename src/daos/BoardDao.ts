@@ -1,10 +1,3 @@
-import { v4 } from "uuid";
-import {
-	boardsTable,
-	cardsTable,
-	columnsTable,
-	usersSharedBoardsTable,
-} from "../database";
 import {
 	CardCreationPayload,
 	ColumnCreationPayload,
@@ -16,8 +9,6 @@ import {
 import {
 	BoardCreationPayload,
 	BoardUpdatePayload,
-	Card,
-	Column,
 	UsersSharedBoardAssociation,
 } from "../types/BoardTypes";
 
@@ -30,26 +21,14 @@ const boardsRepository = AppDataSource.getRepository("Board");
 export class BoardDao implements IBoardDao {
 	constructor(private readonly userDao: IUserDao) {}
 	async getBoardsSharedWithUser(userId: string): Promise<BoardType[] | []> {
-		const boardIds: string[] = [];
-		for (const shared of usersSharedBoardsTable) {
-			if (shared.userId !== userId) continue;
-			boardIds.push(shared.boardId);
-		}
+		const boardIds: BoardType[] = [];
 
-		const boards = boardIds.map((boardId) => {
-			const board = boardsTable.find((board) => board.id === boardId);
-			return board;
-		});
-
-		return boards as BoardType[];
+		return boardIds;
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
 		const boardsOwned: BoardType[] = [];
-		for (const board of boardsTable) {
-			if (board.ownerUserId !== userId) continue;
-			boardsOwned.push(board);
-		}
+
 		return boardsOwned;
 	}
 
@@ -80,13 +59,7 @@ export class BoardDao implements IBoardDao {
 		boardId: string,
 		userId: string
 	): Promise<UsersSharedBoardAssociation | null> {
-		const association = usersSharedBoardsTable.find(
-			(association) =>
-				association.boardId === boardId && association.userId === userId
-		);
-
-		if (!association) return null;
-		return association;
+		return null;
 	}
 
 	async updateBoard(
@@ -106,37 +79,15 @@ export class BoardDao implements IBoardDao {
 		return this.getBoard(board.id);
 	}
 
-	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {
-		const newColumn: Column = {
-			id: v4(),
-			index: 0, // precisa ser o maior indice das colunas existentes no board
-			boardId: params.boardId,
-			title: params.title ?? "New Column",
-		};
-		columnsTable.push(newColumn);
-	}
+	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {}
 
 	async reorderColumns(params: ReorderColumnParams): Promise<void> {
 		// mais facil com sql
 	}
 
-	async addCardToBoard(params: CardCreationPayload): Promise<void> {
-		const newCard: Card = {
-			id: v4(),
-			index: 0, // precisa ser o maior indice...
-			columnId: params.columnId,
-			content: null,
-			createdAt: new Date().getTime(),
-			updatedAt: new Date().getTime(),
-		};
-		cardsTable.push(newCard);
-	}
+	async addCardToBoard(params: CardCreationPayload): Promise<void> {}
 
-	async organizeCards(params: OrganizeCardsParams): Promise<void> {
-		// mais facil com sql
-	}
+	async organizeCards(params: OrganizeCardsParams): Promise<void> {}
 
-	async updateCardContent(params: UpdateCardContent): Promise<void> {
-		// mais facil com sql
-	}
+	async updateCardContent(params: UpdateCardContent): Promise<void> {}
 }
