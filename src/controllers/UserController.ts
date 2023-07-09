@@ -45,4 +45,15 @@ export class UserController {
 				.catch(next);
 		};
 	}
+
+	shareBoardWithUser() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { boardId, userId, canEdit } = req.body;
+			const { id: requestingUserId } = req.user;
+			return this.userService
+				.shareBoardWithUser({ boardId, userId, canEdit }, requestingUserId)
+				.then((data) => res.status(200).send(data))
+				.catch(next);
+		};
+	}
 }

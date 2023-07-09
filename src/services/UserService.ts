@@ -1,6 +1,11 @@
+import { SharedBoardType } from "../entity/SharedBoards";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IUserDao } from "../interfaces/IUserDao";
-import { IUserService, CreateUserReturn } from "../interfaces/IUserService";
+import {
+	IUserService,
+	CreateUserReturn,
+	ShareBoardParams,
+} from "../interfaces/IUserService";
 import {
 	CreateUserPayload,
 	SignInPayload,
@@ -74,5 +79,34 @@ export class UserService implements IUserService {
 			shared,
 		};
 		return response;
+	}
+
+	async shareBoardWithUser(
+		params: ShareBoardParams,
+		requestingUserId: string
+	): Promise<SharedBoardType | null> {
+		const board = await this.boardDao.getBoard(params.boardId);
+		if (!board) throw new StatusError(404, "Board not found");
+
+		if (board.ownerUserId !== requestingUserId)
+			throw new StatusError(403, "You are not the owner of this board");
+
+		const user = await this.userDao.findById(params.userId);
+		if (!user) throw new StatusError(404, "User not found");
+
+		const isBoardAlreadyShared =
+			await this.boardDao.getUserAssociationWithBoard(
+				params.userId,
+				params.boardId
+			);
+
+		if (isBoardAlreadyShared)
+			throw new StatusError(400, "Board already shared with this user");
+
+		const association = await this.boardDao.createRelationBetweenUserAndBoard(
+			params
+		);
+
+		return association;
 	}
 }

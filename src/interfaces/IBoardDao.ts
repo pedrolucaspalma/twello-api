@@ -1,9 +1,7 @@
 import { BoardType } from "../entity/Board";
-import {
-	BoardCreationPayload,
-	BoardUpdatePayload,
-	UsersSharedBoardAssociation,
-} from "../types/BoardTypes";
+import { SharedBoardType } from "../entity/SharedBoards";
+import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
+import { ShareBoardParams } from "./IUserService";
 
 export interface IBoardDao {
 	getBoardsSharedWithUser(userId: string): Promise<BoardType[]>;
@@ -17,9 +15,12 @@ export interface IBoardDao {
 	getUserAssociationWithBoard(
 		boardId: string,
 		userId: string
-	): Promise<UsersSharedBoardAssociation | null>;
+	): Promise<SharedBoardType | null>;
 	addColumnToBoard(params: ColumnCreationPayload): Promise<void>;
 	addCardToBoard(params: CardCreationPayload): Promise<void>;
+	createRelationBetweenUserAndBoard(
+		params: ShareBoardParams
+	): Promise<SharedBoardType | null>;
 	reorderColumns(params: ReorderColumnParams): Promise<void>;
 	organizeCards(params: OrganizeCardsParams): Promise<void>;
 	updateCardContent(params: UpdateCardContent): Promise<void>;

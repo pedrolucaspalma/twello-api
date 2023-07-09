@@ -7,15 +7,13 @@ import {
 	ReorderColumnParams,
 	UpdateCardContent,
 } from "../interfaces/IBoardDao";
-import {
-	BoardCreationPayload,
-	BoardUpdatePayload,
-	UsersSharedBoardAssociation,
-} from "../types/BoardTypes";
+import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 
 import { IUserDao } from "../interfaces/IUserDao";
 import { AppDataSource } from "../database/data-source";
 import { Board, BoardType } from "../entity/Board";
+import { SharedBoard, SharedBoardType } from "../entity/SharedBoards";
+import { ShareBoardParams } from "../interfaces/IUserService";
 
 const boardsRepository = AppDataSource.getRepository("Board");
 const sharedBoardRepository = AppDataSource.getRepository("SharedBoards");
@@ -30,6 +28,7 @@ export class BoardDao implements IBoardDao {
 			.then((associations) => associations.map((a) => a.boardId));
 		const boards = await boardsRepository.find({
 			where: { id: In(boardIds) },
+			order: { createdAt: "DESC" },
 		});
 		return boards as BoardType[];
 	}
@@ -37,6 +36,7 @@ export class BoardDao implements IBoardDao {
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
 		const boardsOwned = await boardsRepository.find({
 			where: { ownerUserId: userId },
+			order: { createdAt: "DESC" },
 		});
 		return boardsOwned as BoardType[];
 	}
@@ -65,11 +65,11 @@ export class BoardDao implements IBoardDao {
 	async getUserAssociationWithBoard(
 		boardId: string,
 		userId: string
-	): Promise<UsersSharedBoardAssociation | null> {
+	): Promise<SharedBoardType | null> {
 		const association = await sharedBoardRepository.findOne({
 			where: { boardId, userId },
 		});
-		return association as UsersSharedBoardAssociation;
+		return association as SharedBoardType;
 	}
 
 	async updateBoard(
@@ -88,6 +88,19 @@ export class BoardDao implements IBoardDao {
 		await board.save();
 
 		return this.getBoard(board.id);
+	}
+
+	async createRelationBetweenUserAndBoard(
+		params: ShareBoardParams
+	): Promise<SharedBoardType | null> {
+		const association = new SharedBoard();
+		association.userId = params.userId;
+		association.boardId = params.boardId;
+		association.canEdit = params.canEdit;
+		association.isFavorite = false;
+		await association.save();
+
+		return this.getUserAssociationWithBoard(params.boardId, params.userId);
 	}
 
 	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {}

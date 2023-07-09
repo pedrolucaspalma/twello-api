@@ -28,13 +28,6 @@ export type BoardUpdatePayload = {
 	textColor?: string;
 };
 
-export type UsersSharedBoardAssociation = {
-	userId: string;
-	boardId: string;
-	canEdit: boolean; // Defaults false
-	isFavorite: boolean; // Defaults false
-};
-
 export type BoardUserAssociationCreationPayload = {
 	userId: string;
 	boardId: string;

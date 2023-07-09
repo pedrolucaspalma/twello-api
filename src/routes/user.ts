@@ -14,6 +14,12 @@ router.get(
 	userController.listBoards()
 );
 
+router.post(
+	"/share-board",
+	authenticationMiddleware(),
+	userController.shareBoardWithUser()
+);
+
 // This lists Users. It is mainly a testing endpoint
 router.get("/list", authenticationMiddleware(), userController.listUsers());
 
