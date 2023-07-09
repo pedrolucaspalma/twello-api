@@ -2,6 +2,7 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 import { AppDataSource } from "./data-source";
 import { StatusError, StatusErrorType } from "./utils/StatusErrors";
@@ -17,6 +18,7 @@ AppDataSource.initialize()
 		// Adding body-parser to be able to access req.body
 		app.use(bodyParser.urlencoded({ extended: false }));
 		app.use(bodyParser.json());
+		app.use(cors());
 
 		// Adding app routes
 		app.use(router);
