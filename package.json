@@ -1,6 +1,5 @@
 {
 	"name": "twello-api",
-	"packageManager": "yarn@3.6.0",
 	"scripts": {
 		"build": "tsc",
 		"start": "ts-node src/index.ts",
