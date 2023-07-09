@@ -26,7 +26,7 @@ export class BoardController {
 
 			return this.boardService
 				.createBoard(params)
-				.then(() => res.status(200).send())
+				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};
 	}

@@ -33,8 +33,6 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async createBoard(data: BoardCreationPayload): Promise<BoardType | null> {
-		// These defaults are here because they will be handled by the defaultValues set in database columns
-
 		const board = new Board();
 		board.ownerUserId = data.ownerUserId;
 
@@ -76,6 +74,7 @@ export class BoardDao implements IBoardDao {
 		board.backgroundColor = data.backgroundColor ?? board.backgroundColor;
 		board.textColor = data.textColor ?? board.textColor;
 		await board.save();
+
 		return this.getBoard(board.id);
 	}
 

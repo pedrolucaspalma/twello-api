@@ -7,17 +7,17 @@ import { StatusError } from "../utils/StatusErrors";
 export class BoardService implements IBoardService {
 	constructor(private readonly boardDao: IBoardDao) {}
 
-	async createBoard(payload: BoardCreationPayload): Promise<void> {
+	async createBoard(payload: BoardCreationPayload): Promise<BoardType | null> {
 		if (!payload || !payload.ownerUserId)
 			throw new StatusError(400, "Every board must have a owner");
-		await this.boardDao.createBoard(payload);
+		return this.boardDao.createBoard(payload);
 	}
 
 	async updateBoard(
 		boardId: string,
 		requestingUserId: string,
 		data: BoardUpdatePayload
-	): Promise<void> {
+	): Promise<BoardType | null> {
 		const board = await this.boardDao.getBoard(boardId);
 		if (!board) throw new StatusError(404, "Board not found");
 
@@ -28,7 +28,7 @@ export class BoardService implements IBoardService {
 		if (!isAllowed)
 			throw new StatusError(401, "User unauthorized to perform this action");
 
-		await this.boardDao.updateBoard(boardId, data);
+		return this.boardDao.updateBoard(boardId, data);
 	}
 
 	async isUserAllowedToEditBoard(
