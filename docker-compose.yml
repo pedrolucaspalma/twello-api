@@ -29,6 +29,7 @@ services:
       - twdodbdata:/var/lib/twello-db/data
     ports:
       - "5430:5432"
+
 volumes:
   twdodbdata:
     driver: local
