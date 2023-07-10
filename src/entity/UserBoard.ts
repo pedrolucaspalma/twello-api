@@ -5,10 +5,13 @@ import {
 	DefaultPrivateFields,
 } from "./BaseContent";
 
-@Entity("SharedBoards")
-export class SharedBoard extends BaseContent {
+@Entity("UserBoards")
+export class UserBoard extends BaseContent {
 	@Column()
 	userId: string;
+
+	// @Column()
+	// isOwner: boolean;
 
 	@Column()
 	boardId: string;
@@ -22,6 +25,7 @@ export class SharedBoard extends BaseContent {
 
 export type SharedBoardType = BaseContentType & {
 	userId: string;
+	// isOwner: boolean;
 	boardId: string;
 	canEdit: boolean;
 	isFavorite: boolean;

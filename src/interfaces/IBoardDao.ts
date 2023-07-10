@@ -1,7 +1,6 @@
 import { BoardType } from "../entity/Board";
-import { SharedBoardType } from "../entity/SharedBoards";
+import { SharedBoardType } from "../entity/UserBoard";
 import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
-import { ShareBoardParams } from "./IUserService";
 
 export interface IBoardDao {
 	getBoardsSharedWithUser(userId: string): Promise<BoardType[]>;

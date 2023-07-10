@@ -1,4 +1,4 @@
-import { SharedBoardType } from "../entity/SharedBoards";
+import { SharedBoardType } from "../entity/UserBoard";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IUserDao } from "../interfaces/IUserDao";
 import {

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../entity/User";
 import { Board } from "../entity/Board";
-import { SharedBoard } from "../entity/SharedBoards";
+import { UserBoard } from "../entity/UserBoard";
 
 const {
 	DATABASE_HOST,
@@ -23,7 +23,7 @@ export const AppDataSource = new DataSource({
 	database: DATABASE_SCHEMA,
 	synchronize: false,
 	logging: false,
-	entities: [User, Board, SharedBoard],
+	entities: [User, Board, UserBoard],
 	migrations: ["build/database/migrations/**/*.js"],
 	subscribers: [],
 });

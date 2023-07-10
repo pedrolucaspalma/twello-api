@@ -1,4 +1,4 @@
-import { SharedBoardType } from "../entity/SharedBoards";
+import { SharedBoardType } from "../entity/UserBoard";
 import { UserType } from "../entity/User";
 import {
 	CreateUserPayload,

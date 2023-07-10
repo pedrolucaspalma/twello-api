@@ -13,8 +13,7 @@ import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 import { IUserDao } from "../interfaces/IUserDao";
 import { AppDataSource } from "../database/data-source";
 import { Board, BoardType } from "../entity/Board";
-import { SharedBoard, SharedBoardType } from "../entity/SharedBoards";
-import { ShareBoardParams } from "../interfaces/IUserService";
+import { UserBoard, SharedBoardType } from "../entity/UserBoard";
 
 const boardsRepository = AppDataSource.getRepository("Board");
 const sharedBoardRepository = AppDataSource.getRepository("SharedBoards");
@@ -94,7 +93,7 @@ export class BoardDao implements IBoardDao {
 	async createRelationBetweenUserAndBoard(
 		params: CreateRelationParams
 	): Promise<SharedBoardType | null> {
-		const association = new SharedBoard();
+		const association = new UserBoard();
 		association.userId = params.userId;
 		association.boardId = params.boardId;
 		association.canEdit = params.canEdit;
