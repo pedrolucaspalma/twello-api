@@ -16,7 +16,7 @@ import { Board, BoardType } from "../entity/Board";
 import { UserBoard, SharedBoardType } from "../entity/UserBoard";
 
 const boardsRepository = AppDataSource.getRepository("Board");
-const sharedBoardRepository = AppDataSource.getRepository("SharedBoards");
+const sharedBoardRepository = AppDataSource.getRepository("UserBoards");
 
 export class BoardDao implements IBoardDao {
 	constructor(private readonly userDao: IUserDao) {}
