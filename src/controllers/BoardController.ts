@@ -46,4 +46,19 @@ export class BoardController {
 				.catch(next);
 		};
 	}
+
+	createAssociationWithUser() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { id } = req.params;
+			const { userEmail, canEdit } = req.body;
+			const { id: requestingUserId } = req.user;
+			return this.userService
+				.shareBoardWithUser(
+					{ boardId: id, userEmail, canEdit },
+					requestingUserId
+				)
+				.then((data) => res.status(200).send(data))
+				.catch(next);
+		};
+	}
 }

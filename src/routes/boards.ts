@@ -6,16 +6,22 @@ const boardController = ControllersFactory.makeBoardController();
 
 const router = express.Router();
 
-router.put(
-	"/:id/update",
-	authenticationMiddleware(),
-	boardController.updateBoard()
-);
-
 router.post(
 	"/create",
 	authenticationMiddleware(),
 	boardController.createBoard()
+);
+
+router.post(
+	"/:id/share",
+	authenticationMiddleware(),
+	boardController.createAssociationWithUser()
+);
+
+router.put(
+	"/:id/update",
+	authenticationMiddleware(),
+	boardController.updateBoard()
 );
 
 export default router;
