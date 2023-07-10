@@ -10,6 +10,7 @@ export interface IBoardService {
 		requestingUserId: string,
 		data: BoardUpdatePayload
 	): Promise<BoardType | null>;
+	deleteBoard(boardId: string, requestingUserId: string): Promise<void>;
 	isUserAllowedToEditBoard(userId: string, boardId: string): Promise<boolean>;
 	updateRelationBetweenUserAndBoard(
 		relationId: string,

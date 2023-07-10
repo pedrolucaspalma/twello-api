@@ -36,6 +36,18 @@ export class BoardService implements IBoardService {
 		return this.boardDao.updateBoard(boardId, data);
 	}
 
+	async deleteBoard(boardId: string, requestingUserId: string): Promise<void> {
+		const board = await this.boardDao.getBoard(boardId);
+		if (!board) throw new StatusError(404, "Board not found");
+		const relation = await this.boardDao.getUserAssociationWithBoard(
+			boardId,
+			requestingUserId
+		);
+		if (!relation?.isOwner)
+			throw new StatusError(401, "Only the owner of the board can delete it");
+		return this.boardDao.deleteBoard(boardId);
+	}
+
 	async isUserAllowedToEditBoard(
 		userId: string,
 		boardId: string

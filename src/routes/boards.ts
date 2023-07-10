@@ -12,7 +12,13 @@ router.post(
 	boardController.createBoard()
 );
 
-router.get("/:id", authenticationMiddleware(), boardController.getBoard());
+router.get("/:boardId", authenticationMiddleware(), boardController.getBoard());
+
+router.delete(
+	"/:boardId",
+	authenticationMiddleware(),
+	boardController.getBoard()
+);
 
 router.get(
 	"/:id/maintainers",

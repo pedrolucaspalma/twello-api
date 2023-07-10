@@ -10,6 +10,8 @@ export interface IBoardDao {
 		boardId: string,
 		data: BoardUpdatePayload
 	): Promise<BoardType | null>;
+
+	deleteBoard(boardId: string): Promise<void>;
 	getBoard(boardId: string): Promise<BoardType | null>;
 	getUserAssociationWithBoard(
 		boardId: string,

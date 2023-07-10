@@ -46,6 +46,18 @@ export class BoardController {
 		};
 	}
 
+	deleteBoard() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { id } = req.user;
+			const { boardId } = req.params;
+
+			return this.boardService
+				.deleteBoard(boardId, id)
+				.then(() => res.status(200).send())
+				.catch(next);
+		};
+	}
+
 	listBoardMaintainers() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id } = req.params;

@@ -96,6 +96,16 @@ export class BoardDao implements IBoardDao {
 		return this.getBoard(board.id);
 	}
 
+	async deleteBoard(boardId: string): Promise<void> {
+		const board = await boardsRepository.findOne({
+			where: { id: boardId },
+		});
+
+		if (!board) return;
+		await sharedBoardRepository.delete({ boardId });
+		await boardsRepository.delete({ id: boardId });
+	}
+
 	async getBoard(boardId: string): Promise<BoardType | null> {
 		const board = await boardsRepository.findOne({
 			where: { id: boardId },
