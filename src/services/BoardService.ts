@@ -8,6 +8,10 @@ import { StatusError } from "../utils/StatusErrors";
 export class BoardService implements IBoardService {
 	constructor(private readonly boardDao: IBoardDao) {}
 
+	async getBoard(boardId: string): Promise<BoardType | null> {
+		return this.boardDao.getBoard(boardId);
+	}
+
 	async createBoard(payload: BoardCreationPayload): Promise<BoardType | null> {
 		if (!payload || !payload.ownerUserId)
 			throw new StatusError(400, "Every board must have a owner");

@@ -4,6 +4,7 @@ import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 
 export interface IBoardService {
 	createBoard(payload: BoardCreationPayload): Promise<BoardType | null>;
+	getBoard(boardId: string): Promise<BoardType | null>;
 	updateBoard(
 		boardId: string,
 		requestingUserId: string,

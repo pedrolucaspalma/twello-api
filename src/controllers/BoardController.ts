@@ -9,15 +9,13 @@ export class BoardController {
 		private readonly userService: IUserService
 	) {}
 
-	updateBoard() {
+	getBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { id } = req.user;
 			const { boardId } = req.params;
-			const data = req.body;
 
 			return this.boardService
-				.updateBoard(boardId, id, data)
-				.then((board) => res.status(200).send(board))
+				.getBoard(boardId)
+				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};
 	}
@@ -35,9 +33,23 @@ export class BoardController {
 		};
 	}
 
+	updateBoard() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { id } = req.user;
+			const { boardId } = req.params;
+			const data = req.body;
+
+			return this.boardService
+				.updateBoard(boardId, id, data)
+				.then((board) => res.status(200).send(board))
+				.catch(next);
+		};
+	}
+
 	listBoardMaintainers() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id } = req.params;
+
 			return this.boardService
 				.getUserBoardAssociations(id)
 				.then((data) => res.status(200).send(data))

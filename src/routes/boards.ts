@@ -12,6 +12,8 @@ router.post(
 	boardController.createBoard()
 );
 
+router.get("/:id", authenticationMiddleware(), boardController.getBoard());
+
 router.get(
 	"/:id/maintainers",
 	authenticationMiddleware(),
