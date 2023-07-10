@@ -102,7 +102,7 @@ export class UserService implements IUserService {
 		if (!user) throw new StatusError(404, "User not found");
 
 		const isBoardAlreadyShared =
-			await this.boardDao.getUserAssociationWithBoard(user.id, params.boardId);
+			await this.boardDao.getUserAssociationWithBoard(params.boardId, user.id);
 
 		if (isBoardAlreadyShared)
 			throw new StatusError(400, "Board already shared with this user");
