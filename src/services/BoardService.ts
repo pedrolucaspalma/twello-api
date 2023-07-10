@@ -1,4 +1,5 @@
 import { BoardType } from "../entity/Board";
+import { SharedBoardType } from "../entity/UserBoard";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IBoardService } from "../interfaces/IBoardService";
 import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
@@ -40,6 +41,10 @@ export class BoardService implements IBoardService {
 			userId
 		);
 		return !!association?.isOwner || !!association?.canEdit;
+	}
+
+	async getUserBoardAssociations(boardId: string): Promise<SharedBoardType[]> {
+		return this.boardDao.listUsersRelatedToBoard(boardId);
 	}
 
 	async getBoardWithColumns(

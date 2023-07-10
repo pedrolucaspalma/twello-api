@@ -21,6 +21,8 @@ export interface IBoardDao {
 		params: CreateRelationParams
 	): Promise<SharedBoardType | null>;
 	deleteRelationBetweenUserAndBoard(associationId: string): Promise<any>;
+	listUsersRelatedToBoard(boardId: string): Promise<SharedBoardType[]>;
+
 	reorderColumns(params: ReorderColumnParams): Promise<void>;
 	organizeCards(params: OrganizeCardsParams): Promise<void>;
 	updateCardContent(params: UpdateCardContent): Promise<void>;

@@ -61,4 +61,14 @@ export class BoardController {
 				.catch(next);
 		};
 	}
+
+	listBoardMaintainers() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { id } = req.params;
+			return this.boardService
+				.getUserBoardAssociations(id)
+				.then((data) => res.status(200).send(data))
+				.catch(next);
+		};
+	}
 }

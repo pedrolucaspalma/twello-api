@@ -131,6 +131,13 @@ export class BoardDao implements IBoardDao {
 		return this.getBoard(board.id);
 	}
 
+	async listUsersRelatedToBoard(boardId: string): Promise<SharedBoardType[]> {
+		const associations = await sharedBoardRepository.find({
+			where: { boardId },
+		});
+		return associations as SharedBoardType[];
+	}
+
 	async createRelationBetweenUserAndBoard(
 		params: CreateRelationParams
 	): Promise<SharedBoardType | null> {
