@@ -10,8 +10,8 @@ export class UserBoard extends BaseContent {
 	@Column()
 	userId: string;
 
-	// @Column()
-	// isOwner: boolean;
+	@Column()
+	isOwner: boolean;
 
 	@Column()
 	boardId: string;
@@ -25,7 +25,7 @@ export class UserBoard extends BaseContent {
 
 export type SharedBoardType = BaseContentType & {
 	userId: string;
-	// isOwner: boolean;
+	isOwner: boolean;
 	boardId: string;
 	canEdit: boolean;
 	isFavorite: boolean;

@@ -12,25 +12,16 @@ export class Board extends BaseContent {
 	title: string;
 
 	@Column()
-	ownerUserId: string;
-
-	@Column()
 	backgroundColor: string;
 
 	@Column()
 	textColor: string;
-
-	@ManyToOne(() => User, (user) => user.boards)
-	@JoinColumn({ name: "ownerUserId" })
-	user: User;
 }
 
 export type BoardType = BaseContentType & {
-	ownerUserId: string;
 	title: string;
 	backgroundColor: string;
 	textColor: string;
-	owner?: UserType;
 };
 
 type privateBoardFields = "password" | DefaultPrivateFields;
