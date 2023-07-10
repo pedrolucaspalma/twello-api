@@ -31,7 +31,9 @@ export class BoardDao implements IBoardDao {
 			order: { createdAt: "DESC" },
 		})) as BoardType[];
 
-		const formattedBoards: Array<BoardType & { isFavorite: boolean }> = [];
+		const formattedBoards: Array<
+			BoardType & { isFavorite: boolean; relationId: string }
+		> = [];
 
 		for (const b of boards) {
 			const association = boardRelations.find((r) => r.boardId === b.id);
@@ -39,6 +41,7 @@ export class BoardDao implements IBoardDao {
 			formattedBoards.push({
 				...b,
 				isFavorite: association.isFavorite,
+				relationId: association.id,
 			});
 		}
 
@@ -56,7 +59,9 @@ export class BoardDao implements IBoardDao {
 			order: { createdAt: "DESC" },
 		})) as BoardType[];
 
-		const formattedBoards: Array<BoardType & { isFavorite: boolean }> = [];
+		const formattedBoards: Array<
+			BoardType & { isFavorite: boolean; relationId: string }
+		> = [];
 
 		for (const b of boards) {
 			const association = boardRelations.find((r) => r.boardId === b.id);
@@ -64,6 +69,7 @@ export class BoardDao implements IBoardDao {
 			formattedBoards.push({
 				...b,
 				isFavorite: association.isFavorite,
+				relationId: association.id,
 			});
 		}
 
