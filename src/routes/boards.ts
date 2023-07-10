@@ -30,6 +30,12 @@ router.put(
 	boardController.updateBoard()
 );
 
+router.put(
+	"/:relationId/edit-relation",
+	authenticationMiddleware(),
+	boardController.updateAssociationWithUser()
+);
+
 router.delete(
 	"/:relationId/remove-maintainer",
 	authenticationMiddleware(),

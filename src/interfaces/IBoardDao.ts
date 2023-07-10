@@ -24,6 +24,10 @@ export interface IBoardDao {
 	deleteRelationBetweenUserAndBoard(associationId: string): Promise<any>;
 	listUsersRelatedToBoard(boardId: string): Promise<SharedBoardType[]>;
 	getRelationById(relationId: string): Promise<SharedBoardType | null>;
+	updateRelation(
+		relationId: string,
+		fields: { isFavorite: boolean; canEdit: boolean }
+	): Promise<SharedBoardType | null>;
 	//
 	reorderColumns(params: ReorderColumnParams): Promise<void>;
 	organizeCards(params: OrganizeCardsParams): Promise<void>;

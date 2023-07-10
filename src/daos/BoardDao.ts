@@ -178,6 +178,20 @@ export class BoardDao implements IBoardDao {
 		return true;
 	}
 
+	async updateRelation(
+		relationId: string,
+		fields: { isFavorite: boolean; canEdit: boolean }
+	): Promise<SharedBoardType | null> {
+		const relation = await sharedBoardRepository.findOne({
+			where: { id: relationId },
+		});
+		if (!relation) return null;
+		relation.isFavorite = fields.isFavorite ?? relation.isFavorite;
+		relation.canEdit = fields.canEdit ?? relation.canEdit;
+		await relation.save();
+		return this.getRelationById(relationId);
+	}
+
 	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {}
 
 	async reorderColumns(params: ReorderColumnParams): Promise<void> {}

@@ -50,6 +50,33 @@ export class BoardService implements IBoardService {
 		return this.boardDao.listUsersRelatedToBoard(boardId);
 	}
 
+	async updateRelationBetweenUserAndBoard(
+		relationId: string,
+		requestingUserId: string,
+		fields: { isFavorite: boolean; canEdit: boolean }
+	): Promise<SharedBoardType | null> {
+		const relation = await this.boardDao.getRelationById(relationId);
+		if (!relation) throw new StatusError(404, "Relation not found");
+
+		if (relation.userId === requestingUserId) {
+			if (!relation.isOwner) {
+				fields.canEdit = relation.canEdit;
+			} else {
+				fields.canEdit = true;
+			}
+			return this.boardDao.updateRelation(relationId, fields);
+		}
+
+		const requestingRelation = await this.boardDao.getUserAssociationWithBoard(
+			relation.boardId,
+			requestingUserId
+		);
+		if (!requestingRelation?.isOwner) throw new StatusError(403, "Forbidden");
+
+		fields.isFavorite = relation.isFavorite;
+		return this.boardDao.updateRelation(relationId, fields);
+	}
+
 	async getBoardWithColumns(
 		boardId: string,
 		userId: string

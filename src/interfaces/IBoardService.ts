@@ -10,6 +10,14 @@ export interface IBoardService {
 		data: BoardUpdatePayload
 	): Promise<BoardType | null>;
 	isUserAllowedToEditBoard(userId: string, boardId: string): Promise<boolean>;
+	updateRelationBetweenUserAndBoard(
+		relationId: string,
+		requestingUserId: string,
+		fields: UpdateBoardRelationParams
+	): Promise<SharedBoardType | null>;
+
 	getBoardWithColumns(boardId: string, userId: string): Promise<BoardType>;
 	getUserBoardAssociations(boardId: string): Promise<SharedBoardType[]>;
 }
+
+type UpdateBoardRelationParams = { isFavorite: boolean; canEdit: boolean };
