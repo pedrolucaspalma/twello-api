@@ -14,6 +14,7 @@ import { IUserDao } from "../interfaces/IUserDao";
 import { AppDataSource } from "../database/data-source";
 import { Board, BoardType } from "../entity/Board";
 import { UserBoard, SharedBoardType } from "../entity/UserBoard";
+import { UserType } from "../entity/User";
 
 const boardsRepository = AppDataSource.getRepository("Board");
 const sharedBoardRepository = AppDataSource.getRepository("UserBoards");
@@ -131,11 +132,20 @@ export class BoardDao implements IBoardDao {
 		return this.getBoard(board.id);
 	}
 
-	async listUsersRelatedToBoard(boardId: string): Promise<SharedBoardType[]> {
-		const associations = await sharedBoardRepository.find({
+	async listUsersRelatedToBoard(
+		boardId: string
+	): Promise<Array<SharedBoardType & { email: string }>> {
+		const associations = (await sharedBoardRepository.find({
 			where: { boardId },
-		});
-		return associations as SharedBoardType[];
+		})) as SharedBoardType[];
+
+		const returnValues: Array<SharedBoardType & { email: string }> = [];
+
+		for (const a of associations) {
+			const user: UserType = await this.userDao.findById(a.userId);
+			if (user) returnValues.push({ ...a, email: user.email });
+		}
+		return returnValues;
 	}
 
 	async createRelationBetweenUserAndBoard(
