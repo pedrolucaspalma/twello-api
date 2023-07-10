@@ -58,6 +58,7 @@ export class BoardDao implements IBoardDao {
 		association.userId = data.ownerUserId;
 		association.boardId = board.id;
 		association.isOwner = true;
+		association.canEdit = true;
 		association.isFavorite = false;
 		await association.save();
 
