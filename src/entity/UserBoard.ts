@@ -11,10 +11,10 @@ export class UserBoard extends BaseContent {
 	userId: string;
 
 	@Column()
-	isOwner: boolean;
+	boardId: string;
 
 	@Column()
-	boardId: string;
+	isOwner: boolean;
 
 	@Column()
 	canEdit: boolean;

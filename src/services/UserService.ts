@@ -89,7 +89,12 @@ export class UserService implements IUserService {
 		const board = await this.boardDao.getBoard(params.boardId);
 		if (!board) throw new StatusError(404, "Board not found");
 
-		if (board.ownerUserId !== requestingUserId)
+		const requestingUserAssociation =
+			await this.boardDao.getUserAssociationWithBoard(
+				board.id,
+				requestingUserId
+			);
+		if (!requestingUserAssociation || !requestingUserAssociation?.isOwner)
 			throw new StatusError(403, "You are not the owner of this board");
 
 		const user = await this.userDao.findByEmail(params.userEmail);
@@ -126,10 +131,16 @@ export class UserService implements IUserService {
 		);
 		if (!association) throw new StatusError(404, "Association not found");
 
-		// I can delete delete the association if im the one who received the the board invitation or the one who owns it
+		const requestingUserAssociation =
+			await this.boardDao.getUserAssociationWithBoard(
+				params.boardId,
+				params.userId
+			);
+
+		// Only the owner of the board or the user in question can delete associations
 		if (
-			association.userId !== requestingUserId &&
-			board.ownerUserId !== requestingUserId
+			!requestingUserAssociation?.isOwner &&
+			requestingUserId !== association.userId
 		) {
 			throw new StatusError(403, "You cannot perform this action");
 		}

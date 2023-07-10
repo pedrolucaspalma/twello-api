@@ -23,7 +23,7 @@ export class BoardDao implements IBoardDao {
 	async getBoardsSharedWithUser(userId: string): Promise<BoardType[] | []> {
 		const boardIds: string[] = await sharedBoardRepository
 			.find({
-				where: { userId },
+				where: { userId, isOwner: false },
 			})
 			.then((associations) => associations.map((a) => a.boardId));
 		const boards = await boardsRepository.find({
@@ -34,22 +34,32 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
-		const boardsOwned = await boardsRepository.find({
-			where: { ownerUserId: userId },
+		const boardIds: string[] = await sharedBoardRepository
+			.find({
+				where: { userId, isOwner: true },
+			})
+			.then((associations) => associations.map((a) => a.boardId));
+		const boards = await boardsRepository.find({
+			where: { id: In(boardIds) },
 			order: { createdAt: "DESC" },
 		});
-		return boardsOwned as BoardType[];
+		return boards as BoardType[];
 	}
 
 	async createBoard(data: BoardCreationPayload): Promise<BoardType | null> {
 		const board = new Board();
-		board.ownerUserId = data.ownerUserId;
 
 		board.title = data.title ?? "New Board";
 		board.backgroundColor = data.backgroundColor ?? "#FFFFFF";
 		board.textColor = data.textColor ?? "#000000";
-
 		await board.save();
+
+		const association = new UserBoard();
+		association.userId = data.ownerUserId;
+		association.boardId = board.id;
+		association.isOwner = true;
+		association.isFavorite = false;
+		await association.save();
 
 		return this.getBoard(board.id);
 	}

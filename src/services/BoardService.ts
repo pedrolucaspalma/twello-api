@@ -35,11 +35,11 @@ export class BoardService implements IBoardService {
 		userId: string,
 		boardId: string
 	): Promise<boolean> {
-		const [association, board] = await Promise.all([
-			this.boardDao.getUserAssociationWithBoard(boardId, userId),
-			this.boardDao.getBoard(boardId),
-		]);
-		return board?.ownerUserId === userId || !!association?.canEdit;
+		const association = await this.boardDao.getUserAssociationWithBoard(
+			boardId,
+			userId
+		);
+		return !!association?.isOwner || !!association?.canEdit;
 	}
 
 	async getBoardWithColumns(
