@@ -1,11 +1,9 @@
-import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, Column } from "typeorm";
 import {
 	BaseContent,
 	BaseContentType,
 	DefaultPrivateFields,
 } from "./BaseContent";
-
-import { User, UserType } from "./User";
 @Entity("Boards")
 export class Board extends BaseContent {
 	@Column()
@@ -16,6 +14,9 @@ export class Board extends BaseContent {
 
 	@Column()
 	textColor: string;
+
+	@Column("json")
+	content: JSON;
 }
 
 export type BoardType = BaseContentType & {
