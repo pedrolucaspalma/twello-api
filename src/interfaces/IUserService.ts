@@ -17,7 +17,7 @@ export interface IUserService {
 	): Promise<SharedBoardType | null>;
 
 	deleteUserBoardAssociation(
-		params: UnshareBoard,
+		relationId: string,
 		requestingUserId: string
 	): Promise<boolean>;
 }

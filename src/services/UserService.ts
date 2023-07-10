@@ -117,25 +117,18 @@ export class UserService implements IUserService {
 	}
 
 	async deleteUserBoardAssociation(
-		params: UnshareBoard,
+		relationId: string,
 		requestingUserId: string
 	): Promise<boolean> {
-		const board = await this.boardDao.getBoard(params.boardId);
-		if (!board) throw new StatusError(404, "Board not found");
-
-		const user = await this.userDao.findById(params.userId);
-		if (!user) throw new StatusError(404, "User not found");
-
-		const association = await this.boardDao.getUserAssociationWithBoard(
-			params.boardId,
-			params.userId
-		);
+		const association = await this.boardDao.getRelationById(relationId);
 		if (!association) throw new StatusError(404, "Association not found");
+		if (association.isOwner)
+			throw new StatusError(403, "You cannot perform this action");
 
 		const requestingUserAssociation =
 			await this.boardDao.getUserAssociationWithBoard(
-				params.boardId,
-				params.userId
+				association.boardId,
+				requestingUserId
 			);
 
 		// Only the owner of the board or the user in question can delete associations

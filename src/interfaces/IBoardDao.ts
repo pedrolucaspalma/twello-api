@@ -17,12 +17,14 @@ export interface IBoardDao {
 	): Promise<SharedBoardType | null>;
 	addColumnToBoard(params: ColumnCreationPayload): Promise<void>;
 	addCardToBoard(params: CardCreationPayload): Promise<void>;
+	//
 	createRelationBetweenUserAndBoard(
 		params: CreateRelationParams
 	): Promise<SharedBoardType | null>;
 	deleteRelationBetweenUserAndBoard(associationId: string): Promise<any>;
 	listUsersRelatedToBoard(boardId: string): Promise<SharedBoardType[]>;
-
+	getRelationById(relationId: string): Promise<SharedBoardType | null>;
+	//
 	reorderColumns(params: ReorderColumnParams): Promise<void>;
 	organizeCards(params: OrganizeCardsParams): Promise<void>;
 	updateCardContent(params: UpdateCardContent): Promise<void>;

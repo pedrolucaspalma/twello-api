@@ -38,10 +38,10 @@ export class BoardController {
 	deleteAssociationWithUser() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id } = req.user;
-			const { boardId, userId } = req.body;
+			const { relationId } = req.params;
 
 			return this.userService
-				.deleteUserBoardAssociation({ boardId, userId }, id)
+				.deleteUserBoardAssociation(relationId, id)
 				.then(() => res.status(200).send())
 				.catch(next);
 		};

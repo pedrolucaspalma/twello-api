@@ -30,4 +30,10 @@ router.put(
 	boardController.updateBoard()
 );
 
+router.delete(
+	"/:relationId/remove-maintainer",
+	authenticationMiddleware(),
+	boardController.deleteAssociationWithUser()
+);
+
 export default router;
