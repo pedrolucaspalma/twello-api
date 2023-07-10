@@ -36,7 +36,7 @@ export class UserController {
 		};
 	}
 
-	listBoards() {
+	listMyBoards() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id: id } = req.user;
 			return this.userService

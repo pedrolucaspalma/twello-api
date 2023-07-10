@@ -9,15 +9,9 @@ router.post("/sign-up", userController.createUser());
 router.post("/sign-in", userController.signIn());
 
 router.get(
-	"/list-boards",
+	"/my-boards",
 	authenticationMiddleware(),
-	userController.listBoards()
-);
-
-router.post(
-	"/share-board",
-	authenticationMiddleware(),
-	userController.shareBoardWithUser()
+	userController.listMyBoards()
 );
 
 // This lists Users. It is mainly a testing endpoint
