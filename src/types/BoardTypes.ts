@@ -26,6 +26,7 @@ export type BoardUpdatePayload = {
 	title?: string;
 	backgroundColor?: string;
 	textColor?: string;
+	content?: JSON;
 };
 
 export type BoardUserAssociationCreationPayload = {

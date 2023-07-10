@@ -135,6 +135,7 @@ export class BoardDao implements IBoardDao {
 		board.title = data.title ?? board.title;
 		board.backgroundColor = data.backgroundColor ?? board.backgroundColor;
 		board.textColor = data.textColor ?? board.textColor;
+		board.content = data.content ?? board.content;
 		await board.save();
 
 		return this.getBoard(board.id);

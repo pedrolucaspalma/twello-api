@@ -17,7 +17,7 @@ export class BoardController {
 
 			return this.boardService
 				.updateBoard(boardId, id, data)
-				.then(() => res.status(200).send())
+				.then((board) => res.status(200).send(board))
 				.catch(next);
 		};
 	}
