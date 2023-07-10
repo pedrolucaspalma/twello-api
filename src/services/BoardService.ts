@@ -44,6 +44,9 @@ export class BoardService implements IBoardService {
 	}
 
 	async getUserBoardAssociations(boardId: string): Promise<SharedBoardType[]> {
+		const board = await this.boardDao.getBoard(boardId);
+		if (!board) throw new StatusError(404, "Board not found");
+
 		return this.boardDao.listUsersRelatedToBoard(boardId);
 	}
 
