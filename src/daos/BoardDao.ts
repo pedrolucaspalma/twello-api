@@ -21,29 +21,53 @@ const sharedBoardRepository = AppDataSource.getRepository("UserBoards");
 export class BoardDao implements IBoardDao {
 	constructor(private readonly userDao: IUserDao) {}
 	async getBoardsSharedWithUser(userId: string): Promise<BoardType[] | []> {
-		const boardIds: string[] = await sharedBoardRepository
-			.find({
-				where: { userId, isOwner: false },
-			})
-			.then((associations) => associations.map((a) => a.boardId));
-		const boards = await boardsRepository.find({
+		const boardRelations = (await sharedBoardRepository.find({
+			where: { userId, isOwner: false },
+		})) as SharedBoardType[];
+		const boardIds = boardRelations.map((r) => r.boardId);
+
+		const boards = (await boardsRepository.find({
 			where: { id: In(boardIds) },
 			order: { createdAt: "DESC" },
-		});
-		return boards as BoardType[];
+		})) as BoardType[];
+
+		const formattedBoards: Array<BoardType & { isFavorite: boolean }> = [];
+
+		for (const b of boards) {
+			const association = boardRelations.find((r) => r.boardId === b.id);
+			if (!association) continue;
+			formattedBoards.push({
+				...b,
+				isFavorite: association.isFavorite,
+			});
+		}
+
+		return formattedBoards;
 	}
 
 	async getBoardsOwnedByUser(userId: string): Promise<BoardType[]> {
-		const boardIds: string[] = await sharedBoardRepository
-			.find({
-				where: { userId, isOwner: true },
-			})
-			.then((associations) => associations.map((a) => a.boardId));
-		const boards = await boardsRepository.find({
+		const boardRelations = (await sharedBoardRepository.find({
+			where: { userId, isOwner: true },
+		})) as SharedBoardType[];
+		const boardIds = boardRelations.map((r) => r.boardId);
+
+		const boards = (await boardsRepository.find({
 			where: { id: In(boardIds) },
 			order: { createdAt: "DESC" },
-		});
-		return boards as BoardType[];
+		})) as BoardType[];
+
+		const formattedBoards: Array<BoardType & { isFavorite: boolean }> = [];
+
+		for (const b of boards) {
+			const association = boardRelations.find((r) => r.boardId === b.id);
+			if (!association) continue;
+			formattedBoards.push({
+				...b,
+				isFavorite: association.isFavorite,
+			});
+		}
+
+		return formattedBoards;
 	}
 
 	async createBoard(data: BoardCreationPayload): Promise<BoardType | null> {

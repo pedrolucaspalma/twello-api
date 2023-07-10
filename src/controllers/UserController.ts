@@ -31,7 +31,7 @@ export class UserController {
 			const data = req.body;
 			return this.userService
 				.signIn(data)
-				.then((token) => res.status(200).send({ token }))
+				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};
 	}

@@ -8,7 +8,7 @@ import {
 
 export interface IUserService {
 	createUser(userData: CreateUserPayload): Promise<CreateUserReturn>;
-	signIn(signInData: SignInPayload): Promise<string>;
+	signIn(signInData: SignInPayload): Promise<CreateUserReturn>;
 	listBoards(userId: string): Promise<UserBoardsList>;
 
 	shareBoardWithUser(

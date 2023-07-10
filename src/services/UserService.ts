@@ -37,21 +37,17 @@ export class UserService implements IUserService {
 		const formattedData = { ...userData, password: encryptedPassword };
 		const user = await this.userDao.create(formattedData);
 
-		const values: CreateUserReturn = {
-			user,
-			token: null,
-		};
+		if (!user) return { user, token: null };
 
-		if (!user) return values;
-
-		values.token = await this.signIn({
-			email: userData.email,
-			password: userData.password,
+		const token = CryptUtil.generateJWT({
+			id: user.id,
+			email: user.email,
+			name: user.name,
 		});
-		return values;
+		return { user, token };
 	}
 
-	async signIn(signInData: SignInPayload): Promise<string> {
+	async signIn(signInData: SignInPayload): Promise<CreateUserReturn> {
 		const user = await this.userDao.findByEmail(signInData.email);
 		if (!user) throw new StatusError(401, "Invalid credentials");
 
@@ -67,7 +63,12 @@ export class UserService implements IUserService {
 			name: user.name,
 		});
 
-		return token;
+		const values: CreateUserReturn = {
+			user,
+			token,
+		};
+
+		return values;
 	}
 
 	async listBoards(userId: string): Promise<UserBoardsList> {
