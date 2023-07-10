@@ -51,7 +51,10 @@ export class UserController {
 			const { boardId, userId, canEdit } = req.body;
 			const { id: requestingUserId } = req.user;
 			return this.userService
-				.shareBoardWithUser({ boardId, userId, canEdit }, requestingUserId)
+				.shareBoardWithUser(
+					{ boardId, userEmail: userId, canEdit },
+					requestingUserId
+				)
 				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};

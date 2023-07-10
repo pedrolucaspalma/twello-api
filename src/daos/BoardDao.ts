@@ -2,6 +2,7 @@ import { In } from "typeorm";
 import {
 	CardCreationPayload,
 	ColumnCreationPayload,
+	CreateRelationParams,
 	IBoardDao,
 	OrganizeCardsParams,
 	ReorderColumnParams,
@@ -91,7 +92,7 @@ export class BoardDao implements IBoardDao {
 	}
 
 	async createRelationBetweenUserAndBoard(
-		params: ShareBoardParams
+		params: CreateRelationParams
 	): Promise<SharedBoardType | null> {
 		const association = new SharedBoard();
 		association.userId = params.userId;
@@ -101,6 +102,15 @@ export class BoardDao implements IBoardDao {
 		await association.save();
 
 		return this.getUserAssociationWithBoard(params.boardId, params.userId);
+	}
+
+	async deleteRelationBetweenUserAndBoard(associationId: string) {
+		const association = await sharedBoardRepository.findOne({
+			where: { id: associationId },
+		});
+		if (!association) return false;
+		await association.remove();
+		return true;
 	}
 
 	async addColumnToBoard(params: ColumnCreationPayload): Promise<void> {}

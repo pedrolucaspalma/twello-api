@@ -5,6 +5,7 @@ import {
 	IUserService,
 	CreateUserReturn,
 	ShareBoardParams,
+	UnshareBoard,
 } from "../interfaces/IUserService";
 import {
 	CreateUserPayload,
@@ -91,22 +92,52 @@ export class UserService implements IUserService {
 		if (board.ownerUserId !== requestingUserId)
 			throw new StatusError(403, "You are not the owner of this board");
 
-		const user = await this.userDao.findById(params.userId);
+		const user = await this.userDao.findByEmail(params.userEmail);
 		if (!user) throw new StatusError(404, "User not found");
 
 		const isBoardAlreadyShared =
-			await this.boardDao.getUserAssociationWithBoard(
-				params.userId,
-				params.boardId
-			);
+			await this.boardDao.getUserAssociationWithBoard(user.id, params.boardId);
 
 		if (isBoardAlreadyShared)
 			throw new StatusError(400, "Board already shared with this user");
 
-		const association = await this.boardDao.createRelationBetweenUserAndBoard(
-			params
-		);
+		const association = await this.boardDao.createRelationBetweenUserAndBoard({
+			boardId: params.boardId,
+			canEdit: params.canEdit,
+			userId: user.id,
+		});
 
 		return association;
+	}
+
+	async deleteUserBoardAssociation(
+		params: UnshareBoard,
+		requestingUserId: string
+	): Promise<boolean> {
+		const board = await this.boardDao.getBoard(params.boardId);
+		if (!board) throw new StatusError(404, "Board not found");
+
+		const user = await this.userDao.findById(params.userId);
+		if (!user) throw new StatusError(404, "User not found");
+
+		const association = await this.boardDao.getUserAssociationWithBoard(
+			params.boardId,
+			params.userId
+		);
+		if (!association) throw new StatusError(404, "Association not found");
+
+		// I can delete delete the association if im the one who received the the board invitation or the one who owns it
+		if (
+			association.userId !== requestingUserId &&
+			board.ownerUserId !== requestingUserId
+		) {
+			throw new StatusError(403, "You cannot perform this action");
+		}
+
+		const deleted = await this.boardDao.deleteRelationBetweenUserAndBoard(
+			association.id
+		);
+
+		return !!deleted;
 	}
 }

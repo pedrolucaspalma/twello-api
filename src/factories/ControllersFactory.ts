@@ -12,6 +12,9 @@ export class ControllersFactory {
 	}
 
 	static makeBoardController() {
-		return new BoardController(ServicesFactory.makeBoardService());
+		return new BoardController(
+			ServicesFactory.makeBoardService(),
+			ServicesFactory.makeUserService()
+		);
 	}
 }

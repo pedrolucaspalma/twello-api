@@ -19,12 +19,19 @@ export interface IBoardDao {
 	addColumnToBoard(params: ColumnCreationPayload): Promise<void>;
 	addCardToBoard(params: CardCreationPayload): Promise<void>;
 	createRelationBetweenUserAndBoard(
-		params: ShareBoardParams
+		params: CreateRelationParams
 	): Promise<SharedBoardType | null>;
+	deleteRelationBetweenUserAndBoard(associationId: string): Promise<any>;
 	reorderColumns(params: ReorderColumnParams): Promise<void>;
 	organizeCards(params: OrganizeCardsParams): Promise<void>;
 	updateCardContent(params: UpdateCardContent): Promise<void>;
 }
+
+export type CreateRelationParams = {
+	userId: string;
+	boardId: string;
+	canEdit: boolean;
+};
 
 export type CardCreationPayload = {
 	columnId: string;

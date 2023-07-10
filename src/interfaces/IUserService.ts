@@ -10,10 +10,16 @@ export interface IUserService {
 	createUser(userData: CreateUserPayload): Promise<CreateUserReturn>;
 	signIn(signInData: SignInPayload): Promise<string>;
 	listBoards(userId: string): Promise<UserBoardsList>;
+
 	shareBoardWithUser(
 		params: ShareBoardParams,
 		requestingUserId: string
 	): Promise<SharedBoardType | null>;
+
+	deleteUserBoardAssociation(
+		params: UnshareBoard,
+		requestingUserId: string
+	): Promise<boolean>;
 }
 
 export type CreateUserReturn = {
@@ -23,6 +29,11 @@ export type CreateUserReturn = {
 
 export type ShareBoardParams = {
 	boardId: string;
-	userId: string;
+	userEmail: string;
 	canEdit: boolean;
+};
+
+export type UnshareBoard = {
+	boardId: string;
+	userId: string;
 };
