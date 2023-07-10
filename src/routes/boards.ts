@@ -17,7 +17,7 @@ router.get("/:boardId", authenticationMiddleware(), boardController.getBoard());
 router.delete(
 	"/:boardId",
 	authenticationMiddleware(),
-	boardController.getBoard()
+	boardController.deleteBoard()
 );
 
 router.get(

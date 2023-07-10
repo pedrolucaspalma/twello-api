@@ -45,7 +45,7 @@ export class BoardService implements IBoardService {
 		);
 		if (!relation?.isOwner)
 			throw new StatusError(401, "Only the owner of the board can delete it");
-		return this.boardDao.deleteBoard(boardId);
+		await this.boardDao.deleteBoard(boardId);
 	}
 
 	async isUserAllowedToEditBoard(
