@@ -11,10 +11,10 @@ export class BoardController {
 
 	getBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { boardId } = req.params;
+			const { id } = req.params;
 
 			return this.boardService
-				.getBoard(boardId)
+				.getBoard(id)
 				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};
@@ -36,7 +36,7 @@ export class BoardController {
 	updateBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id } = req.user;
-			const { boardId } = req.params;
+			const { id: boardId } = req.params;
 			const data = req.body;
 
 			return this.boardService

@@ -136,9 +136,7 @@ export class BoardDao implements IBoardDao {
 		boardId: string,
 		data: BoardUpdatePayload
 	): Promise<BoardType | null> {
-		const board = await boardsRepository.findOne({
-			where: { id: boardId },
-		});
+		const board = await boardsRepository.findOne({ where: { id: boardId } });
 
 		if (!board) return null;
 
