@@ -8,6 +8,10 @@ const router = express.Router();
 router.post("/sign-up", userController.createUser());
 router.post("/sign-in", userController.signIn());
 
+router.post("/request-change-password", userController.changePasswordRequest());
+
+router.post("/change-password/", userController.changePassword());
+
 router.get(
 	"/my-boards",
 	authenticationMiddleware(),

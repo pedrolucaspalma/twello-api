@@ -3,6 +3,7 @@ import { DataSource } from "typeorm";
 import { User } from "../entity/User";
 import { Board } from "../entity/Board";
 import { UserBoard } from "../entity/UserBoard";
+import { ChangePasswordRequest } from "../entity/ChangePasswordRequest";
 
 const {
 	DATABASE_HOST,
@@ -23,7 +24,7 @@ export const AppDataSource = new DataSource({
 	database: DATABASE_SCHEMA,
 	synchronize: false,
 	logging: false,
-	entities: [User, Board, UserBoard],
+	entities: [User, Board, UserBoard, ChangePasswordRequest],
 	migrations: ["build/database/migrations/**/*.js"],
 	subscribers: [],
 });

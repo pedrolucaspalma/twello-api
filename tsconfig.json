@@ -17,7 +17,6 @@
 		"emitDecoratorMetadata": true,
 		"moduleResolution": "node",
 		"sourceMap": true
-
 		//* TypeORM default values
 		// "lib": [
 		//    "es5",

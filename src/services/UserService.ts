@@ -1,22 +1,25 @@
+import { UserType } from "../entity/User";
 import { SharedBoardType } from "../entity/UserBoard";
 import { IBoardDao } from "../interfaces/IBoardDao";
+import { ICryptUtil } from "../interfaces/ICryptUtil";
+import { IEmailService } from "../interfaces/IEmailService";
 import { IUserDao } from "../interfaces/IUserDao";
 import {
 	IUserService,
 	CreateUserReturn,
 	ShareBoardParams,
-	UnshareBoard,
 } from "../interfaces/IUserService";
 import {
 	CreateUserPayload,
 	SignInPayload,
 	UserBoardsList,
 } from "../types/UserTypes";
-import { CryptUtil } from "../utils/CryptUtil";
 import { StatusError } from "../utils/StatusErrors";
 
 export class UserService implements IUserService {
 	constructor(
+		private readonly cryptUtil: ICryptUtil,
+		private readonly emailService: IEmailService,
 		private readonly userDao: IUserDao,
 		private readonly boardDao: IBoardDao
 	) {}
@@ -33,13 +36,15 @@ export class UserService implements IUserService {
 		);
 		if (!emailIsAvailable) throw new StatusError(400, "email already in use");
 
-		const encryptedPassword = await CryptUtil.hashPassword(userData.password);
+		const encryptedPassword = await this.cryptUtil.hashPassword(
+			userData.password
+		);
 		const formattedData = { ...userData, password: encryptedPassword };
 		const user = await this.userDao.create(formattedData);
 
 		if (!user) return { user, token: null };
 
-		const token = CryptUtil.generateJWT({
+		const token = this.cryptUtil.generateJWT({
 			id: user.id,
 			email: user.email,
 			name: user.name,
@@ -51,13 +56,13 @@ export class UserService implements IUserService {
 		const user = await this.userDao.findByEmail(signInData.email);
 		if (!user) throw new StatusError(401, "Invalid credentials");
 
-		const passwordMatches = await CryptUtil.comparePasswords(
+		const passwordMatches = await this.cryptUtil.comparePasswords(
 			signInData.password,
 			user.password
 		);
 		if (!passwordMatches) throw new StatusError(401, "Invalid credentials");
 
-		const token = CryptUtil.generateJWT({
+		const token = this.cryptUtil.generateJWT({
 			id: user.id,
 			email: user.email,
 			name: user.name,
@@ -69,6 +74,33 @@ export class UserService implements IUserService {
 		};
 
 		return values;
+	}
+
+	async handleChangePasswordRequest(userEmail: string): Promise<void> {
+		const user = await this.userDao.findByEmail(userEmail);
+		if (!user) throw new StatusError(404, "User not found");
+		const token = this.cryptUtil.generatePasswordToken(user.id);
+		await this.userDao.setPasswordToken(user.id, token);
+		await this.emailService.sendRecoverOrChangePasswordEmail(token, user.email);
+	}
+
+	async changePassword(token: string, password: string): Promise<UserType> {
+		let decodedTokenContent;
+		try {
+			const decoded = this.cryptUtil.verifyPasswordToken(token);
+			decodedTokenContent = decoded;
+		} catch (e) {
+			throw new StatusError(400, "Invalid or expired token.");
+		}
+
+		const user = await this.userDao.findById(decodedTokenContent.userId);
+		if (!user) throw new StatusError(404, "User not found");
+
+		const encodedPassword = await this.cryptUtil.hashPassword(password);
+		return this.userDao.updatePassword(
+			decodedTokenContent.userId,
+			encodedPassword
+		);
 	}
 
 	async listBoards(userId: string): Promise<UserBoardsList> {

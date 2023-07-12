@@ -31,9 +31,6 @@ export interface IBoardDao {
 		fields: { isFavorite: boolean; canEdit: boolean }
 	): Promise<SharedBoardType | null>;
 	//
-	reorderColumns(params: ReorderColumnParams): Promise<void>;
-	organizeCards(params: OrganizeCardsParams): Promise<void>;
-	updateCardContent(params: UpdateCardContent): Promise<void>;
 }
 
 export type CreateRelationParams = {

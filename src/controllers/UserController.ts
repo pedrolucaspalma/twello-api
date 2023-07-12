@@ -36,6 +36,26 @@ export class UserController {
 		};
 	}
 
+	changePasswordRequest() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { email } = req.body;
+			return this.userService
+				.handleChangePasswordRequest(email)
+				.then(() => res.status(200).send())
+				.catch(next);
+		};
+	}
+
+	changePassword() {
+		return (req: Request, res: Response, next: NextFunction) => {
+			const { token, password } = req.body;
+			return this.userService
+				.changePassword(token, password)
+				.then((user) => res.status(200).send(user))
+				.catch(next);
+		};
+	}
+
 	listMyBoards() {
 		return (req: Request, res: Response, next: NextFunction) => {
 			const { id: id } = req.user;

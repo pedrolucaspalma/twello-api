@@ -20,6 +20,9 @@ export interface IUserService {
 		relationId: string,
 		requestingUserId: string
 	): Promise<boolean>;
+
+	handleChangePasswordRequest(userEmail: string): Promise<void>;
+	changePassword(token: string, password: string): Promise<UserType>;
 }
 
 export type CreateUserReturn = {
