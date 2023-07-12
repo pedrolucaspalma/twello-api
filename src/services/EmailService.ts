@@ -13,7 +13,10 @@ export class EmailService implements IEmailService {
 			to: userEmail,
 			from: "twello.inkwo@gmail.com",
 			subject: "Password change request",
-			text: `You have requested a password change. Access this link to change your token: localhost:3000/change-password?token=${userToken}`,
+			text: `You have requested a password change token. Here is your token: ${userToken}
+			
+			Place it in the password change form alongside your new password.
+			`,
 		};
 		await sgMail
 			.send(msg)
