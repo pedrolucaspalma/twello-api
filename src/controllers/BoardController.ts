@@ -11,10 +11,10 @@ export class BoardController {
 
 	getBoard() {
 		return (req: Request, res: Response, next: NextFunction) => {
-			const { id } = req.params;
+			const { boardId } = req.params;
 
 			return this.boardService
-				.getBoard(id)
+				.getBoard(boardId)
 				.then((data) => res.status(200).send(data))
 				.catch(next);
 		};
