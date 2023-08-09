@@ -1,5 +1,5 @@
-import { SharedBoardType } from "../entity/UserBoard";
-import { UserType } from "../entity/User";
+import { SharedBoardType } from "../models/UserBoard";
+import { UserType } from "../models/User";
 import {
 	CreateUserPayload,
 	SignInPayload,

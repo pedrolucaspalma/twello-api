@@ -1,4 +1,4 @@
-import { UserType } from "../entity/User";
+import { UserType } from "../models/User";
 import { CreateUserPayload } from "../types/UserTypes";
 
 export interface IUserDao {

@@ -11,9 +11,9 @@ import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 
 import { IUserDao } from "../interfaces/IUserDao";
 import { AppDataSource } from "../database/data-source";
-import { Board, BoardType } from "../entity/Board";
-import { UserBoard, SharedBoardType } from "../entity/UserBoard";
-import { UserType } from "../entity/User";
+import { Board, BoardType } from "../models/Board";
+import { UserBoard, SharedBoardType } from "../models/UserBoard";
+import { UserType } from "../models/User";
 
 
 export class BoardDao implements IBoardDao {

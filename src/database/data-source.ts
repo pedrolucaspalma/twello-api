@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { User } from "../entity/User";
-import { Board } from "../entity/Board";
-import { UserBoard } from "../entity/UserBoard";
-import { ChangePasswordRequest } from "../entity/ChangePasswordRequest";
+import { User } from "../models/User";
+import { Board } from "../models/Board";
+import { UserBoard } from "../models/UserBoard";
+import { ChangePasswordRequest } from "../models/ChangePasswordRequest";
 
 const {
 	DATABASE_HOST,

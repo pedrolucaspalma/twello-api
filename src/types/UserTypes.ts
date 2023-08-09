@@ -1,4 +1,4 @@
-import { BoardType } from "../entity/Board";
+import { BoardType } from "../models/Board";
 
 export type CreateUserPayload = {
 	name: string;

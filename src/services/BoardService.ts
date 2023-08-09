@@ -1,12 +1,12 @@
-import { BoardType } from "../entity/Board";
-import { SharedBoardType } from "../entity/UserBoard";
+import { BoardType } from "../models/Board";
+import { SharedBoardType } from "../models/UserBoard";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { IBoardService } from "../interfaces/IBoardService";
 import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 import { StatusError } from "../utils/StatusErrors";
 
 export class BoardService implements IBoardService {
-	constructor(private readonly boardDao: IBoardDao) {}
+	constructor(private readonly boardDao: IBoardDao) { }
 
 	async getBoard(boardId: string): Promise<BoardType | null> {
 		return this.boardDao.getBoard(boardId);

@@ -1,5 +1,5 @@
-import { UserType } from "../entity/User";
-import { SharedBoardType } from "../entity/UserBoard";
+import { UserType } from "../models/User";
+import { SharedBoardType } from "../models/UserBoard";
 import { IBoardDao } from "../interfaces/IBoardDao";
 import { ICryptUtil } from "../interfaces/ICryptUtil";
 import { IEmailService } from "../interfaces/IEmailService";
@@ -22,7 +22,7 @@ export class UserService implements IUserService {
 		private readonly emailService: IEmailService,
 		private readonly userDao: IUserDao,
 		private readonly boardDao: IBoardDao
-	) {}
+	) { }
 	async createUser(userData: CreateUserPayload): Promise<CreateUserReturn> {
 		if (userData.password.length < 8) {
 			throw new StatusError(

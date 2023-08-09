@@ -1,7 +1,7 @@
 import { IUserDao } from "../interfaces/IUserDao";
 import { CreateUserPayload } from "../types/UserTypes";
-import { User, UserType } from "../entity/User";
-import { ChangePasswordRequest } from "../entity/ChangePasswordRequest";
+import { User, UserType } from "../models/User";
+import { ChangePasswordRequest } from "../models/ChangePasswordRequest";
 
 export class UserDao implements IUserDao {
 	constructor() { }

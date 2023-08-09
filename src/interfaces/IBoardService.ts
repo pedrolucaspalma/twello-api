@@ -1,5 +1,5 @@
-import { BoardType } from "../entity/Board";
-import { SharedBoardType } from "../entity/UserBoard";
+import { BoardType } from "../models/Board";
+import { SharedBoardType } from "../models/UserBoard";
 import { BoardCreationPayload, BoardUpdatePayload } from "../types/BoardTypes";
 
 export interface IBoardService {
