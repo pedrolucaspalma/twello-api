@@ -1,11 +1,6 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-
-export class CreateChangePasswordsRequests1689125122784
-	implements MigrationInterface
-{
-	public async up(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(
-			`CREATE TABLE "ChangePasswordRequests" (
+export class CreateChangePasswordsRequests1689125122784 {
+	public async up(queryRunner): Promise<void> {
+		const query = `CREATE TABLE "ChangePasswordRequests" (
                 "id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 "userId" UUID NOT NULL,
                 "passwordToken" VARCHAR(255) NOT NULL,
@@ -14,10 +9,9 @@ export class CreateChangePasswordsRequests1689125122784
                     FOREIGN KEY("userId")
                         REFERENCES "Users"("id")
             )`
-		);
 	}
 
-	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`DROP TABLE "ChangePasswordRequests"`);
+	public async down(queryRunner): Promise<void> {
+		const query = `DROP TABLE "ChangePasswordRequests"`;
 	}
 }

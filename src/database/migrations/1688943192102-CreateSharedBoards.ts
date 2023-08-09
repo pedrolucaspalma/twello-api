@@ -1,9 +1,6 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
-
-export class CreateSharedBoards1688943192102 implements MigrationInterface {
-	public async up(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(
-			`CREATE TABLE "SharedBoards" (
+export class CreateSharedBoards1688943192102 {
+    public async up(queryRunner): Promise<void> {
+        const query = `CREATE TABLE "SharedBoards" (
                 "id" UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 "userId" UUID NOT NULL,
                 "boardId" UUID NOT NULL,
@@ -20,10 +17,9 @@ export class CreateSharedBoards1688943192102 implements MigrationInterface {
                     FOREIGN KEY("boardId")
                         REFERENCES "Boards"("id")
             )`
-		);
-	}
+    }
 
-	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`DROP TABLE "SharedBoards"`);
-	}
+    public async down(queryRunner): Promise<void> {
+        const query = `DROP TABLE "SharedBoards"`;
+    }
 }
