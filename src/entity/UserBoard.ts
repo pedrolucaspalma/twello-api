@@ -1,25 +1,18 @@
-import { Entity, Column } from "typeorm";
 import {
 	BaseContent,
 	BaseContentType,
 	DefaultPrivateFields,
 } from "./BaseContent";
 
-@Entity("UserBoards")
 export class UserBoard extends BaseContent {
-	@Column()
 	userId: string;
 
-	@Column()
 	boardId: string;
 
-	@Column()
 	isOwner: boolean;
 
-	@Column()
 	canEdit: boolean;
 
-	@Column()
 	isFavorite: boolean;
 }
 

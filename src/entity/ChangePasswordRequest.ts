@@ -1,23 +1,10 @@
-import {
-	BaseEntity,
-	Column,
-	CreateDateColumn,
-	Entity,
-	PrimaryGeneratedColumn,
-} from "typeorm";
-
-@Entity("ChangePasswordRequests")
-export class ChangePasswordRequest extends BaseEntity {
-	@PrimaryGeneratedColumn("uuid")
+export class ChangePasswordRequest {
 	id: string;
 
-	@Column()
 	userId: string;
 
-	@Column()
 	passwordToken: string;
 
-	@CreateDateColumn()
 	createdAt: string;
 }
 
